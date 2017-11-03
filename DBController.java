@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.*;
-import java.util.*;s
+import java.util.*;
 
 //Database controller; responsible for manipulating all database interaction activities.
 //Functions include, but not limited to, insert, update, retrieve, edit and delete.
@@ -94,7 +94,7 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     public void insertLoginData(Login login) {
-        db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_LOGIN_pID, login.getLoginID());
