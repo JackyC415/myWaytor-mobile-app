@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.*;
-import java.util.*;
+import java.util.*;s
 
 //Database controller; responsible for manipulating all database interaction activities.
 //Functions include, but not limited to, insert, update, retrieve, edit and delete.
@@ -52,7 +52,7 @@ public class DBController extends SQLiteOpenHelper {
 
     //Default constructor which generates the database
     public DBController(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     //Generating Database Tables for Login, Registration and CardHolder
@@ -60,7 +60,7 @@ public class DBController extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_LOGIN_TABLE = "create table" + TABLE_LOGIN + "("
-                + KEY_LOGIN_pID + "LOGIN PRIMARY KEY ID," + "(" + KEY_LOGIN_USERNAME + "TEXT" +
+                + KEY_LOGIN_pID + "LOGIN PRIMARY KEY ID,"  + KEY_LOGIN_USERNAME + "TEXT" +
                 KEY_LOGIN_PASSWORD + "TEXT" + ");";
 
         String CREATE_REGISTRATION_TABLE = "create table" + TABLE_REGISTRATIONS + "("
@@ -94,7 +94,7 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     public void insertLoginData(Login login) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_LOGIN_pID, login.getLoginID());
