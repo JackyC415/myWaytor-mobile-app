@@ -59,17 +59,17 @@ public class DBController extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_LOGIN_TABLE = "Create Login Table" + TABLE_LOGIN + "("
+        String CREATE_LOGIN_TABLE = "create table" + TABLE_LOGIN + "("
                 + KEY_LOGIN_pID + "LOGIN PRIMARY KEY ID," + "(" + KEY_LOGIN_USERNAME + "TEXT" +
                 KEY_LOGIN_PASSWORD + "TEXT" + ");";
 
-        String CREATE_REGISTRATION_TABLE = "Create Registration Table" + TABLE_REGISTRATIONS + "("
+        String CREATE_REGISTRATION_TABLE = "create table" + TABLE_REGISTRATIONS + "("
                 + KEY_REGISTRATION_pID + "REGISTRATION PRIMARY KEY ID," + KEY_REGISTRATION_USERFIRSTNAME +
                 "TEXT" + KEY_REGISTRATION_USERLASTNAME + "TEXT" + KEY_REGISTRATION_USERNAME +
                 "TEXT," + KEY_REGISTRATION_USERPASSWORD + "TEXT," + KEY_REGISTRATION_USERAGE + "TEXT,"
                 + KEY_REGISTRATION_USERGENDER + "TEXT," + KEY_REGISTRATION_USEREMAIL + " TEXT" + ");";
 
-        String CREATE_CARDHOLDER_TABLE = "Create CardHolder Table" + TABLE_CARDHOLDER + "(" + KEY_CARD_pID
+        String CREATE_CARDHOLDER_TABLE = "create table" + TABLE_CARDHOLDER + "(" + KEY_CARD_pID
                 + "PRIMARY KEY ID," + KEY_CARD_NUMBER + "TEXT" + KEY_CARD_EXPIRATIONDATE + "TEXT" +
                 KEY_CARD_CVV + "TEXT" + KEY_CARD_USERADDRESS + "TEXT" + KEY_CARD_USERCITY + "TEXT"
                 + KEY_CARD_USERSTATE + "TEXT" + KEY_CARD_USERZIPCODE + "TEXT" + KEY_CARD_USERCOUNTRY
