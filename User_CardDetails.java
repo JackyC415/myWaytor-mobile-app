@@ -2,15 +2,15 @@ package com.example.jchen415.mywaytor_mobile_application;
 
 public class User_CardDetails {
 
-    String cardHolderName;
-    String cardNumber;
-    Integer expirationDate;
-    Integer cvvNumber;
-    String userAddress;
-    String userCity;
-    String userState;
-    Integer userZipCode;
-    String userCountry;
+    String cardHolderName = "";
+    String cardNumber = "";
+    Integer expirationDate = 0;
+    Integer cvvNumber = 0;
+    String userAddress = "";
+    String userCity = "";
+    String userState = "";
+    Integer userZipCode = 0;
+    String userCountry = "";
 
 
     public User_CardDetails(String cardHolderName, String cardNumber, Integer expirationDate,
