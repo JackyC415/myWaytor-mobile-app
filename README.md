@@ -1,5 +1,4 @@
 # myWaytor
 UC MERCED CSE 120: SOFTWARE ENGINEERING PROJECT
-GROUP: myWaytor Mobile Application
-IDE AND DATABASE: ANDROID STUDIO/SQLITE
-COLLABORATORS: Liangming Lin & Isaac Valesquez
+GROUP: myWaytor
+
