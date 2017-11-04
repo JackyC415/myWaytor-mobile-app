@@ -191,4 +191,11 @@ public class DBController extends SQLiteOpenHelper {
         db.delete(TABLE_REGISTRATIONS, KEY_REGISTRATION_pID + "=?", new String[]{String.valueOf(registration.getPrimaryID())});
         db.close();
     }
+    
+    //Database connection terminator
+    public void DBConnectionTerminator() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
 }
