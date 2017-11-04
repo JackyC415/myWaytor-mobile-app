@@ -2,16 +2,15 @@ package com.example.jchen415.mywaytor_mobile_application;
 
 public class User_CardDetails {
 
-    String cardHolderName = "";
-    String cardNumber = "";
-    Integer expirationDate = 0;
-    Integer cvvNumber = 0;
-    String userAddress = "";
-    String userCity = "";
-    String userState = "";
-    Integer userZipCode = 0;
-    String userCountry = "";
-
+    private String cardHolderName;
+    private String cardNumber;
+    private Integer expirationDate;
+    private Integer cvvNumber;
+    private String userAddress;
+    private String userCity;
+    private String userState;
+    private Integer userZipCode;
+    private String userCountry;
 
     public User_CardDetails(String cardHolderName, String cardNumber, Integer expirationDate,
                             Integer cvvNumber, String userAddress, String userCity, String userState,
@@ -98,5 +97,4 @@ public class User_CardDetails {
     public void setUserCountry(String userCountry) {
         this.userCountry = userCountry;
     }
-
 }
