@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.*;
 import java.util.*;
 
-//Database controller; responsible for manipulating all database interaction activities.
-//Functions include, but not limited to, insert, update, retrieve, edit and delete.
-//Future implementations will include authentications and verifications.
+//Database controller; responsible for manipulating all database interaction activities
+//Functions include, but not limited to, insert, update, retrieve, edit and delete
+//Future implementations will include authentications and verifications as well as any new features
 public class DBController extends SQLiteOpenHelper {
 
     //Database Name
@@ -133,14 +133,13 @@ public class DBController extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Registration registration = new Registration();
-                registration.setPrimaryID(Integer.parseInt(cursor.getString(0)));
-                registration.setUserFirstName(cursor.getString(1));
-                registration.setUserLastName(cursor.getString(2));
-                registration.setUserName((cursor.getString(3)));
-                registration.setUserPassword(cursor.getString(4));
-                registration.setUserAge(Integer.parseInt(cursor.getString(5)));
-                registration.setUserGender((cursor.getString(6)));
-                registration.setUserEmail(cursor.getString(7));
+                registration.setUserFirstName(cursor.getString(0));
+                registration.setUserLastName(cursor.getString(1));
+                registration.setUserName((cursor.getString(2)));
+                registration.setUserPassword(cursor.getString(3));
+                registration.setUserAge(Integer.parseInt(cursor.getString(4)));
+                registration.setUserGender((cursor.getString(5)));
+                registration.setUserEmail(cursor.getString(6));
 
                 registrationList.add(registration);
             } while (cursor.moveToNext());
