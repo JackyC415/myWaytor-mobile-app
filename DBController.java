@@ -127,15 +127,15 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_REGISTRATION_USERFIRSTNAME, cardholder.getCardHolderName());
-        values.put(KEY_REGISTRATION_USERLASTNAME, cardholder.getCardNumber());
-        values.put(KEY_REGISTRATION_USERNAME, cardholder.getCvvNumber());
-        values.put(KEY_REGISTRATION_USERPASSWORD, cardholder.getExpirationDate());
-        values.put(KEY_REGISTRATION_USERAGE, cardholder.getUserAddress());
-        values.put(KEY_REGISTRATION_USERGENDER, cardholder.getUserCity());
-        values.put(KEY_REGISTRATION_USEREMAIL, cardholder.getUserCountry());
-        values.put(KEY_REGISTRATION_USEREMAIL, cardholder.getUserState());
-        values.put(KEY_REGISTRATION_USEREMAIL, cardholder.getUserZipCode());
+        values.put(KEY_CARD_NAME, cardholder.getCardHolderName());
+        values.put(KEY_CARD_NUMBER, cardholder.getCardNumber());
+        values.put(KEY_CARD_CVV, cardholder.getCvvNumber());
+        values.put(KEY_CARD_EXPIRATIONDATE, cardholder.getExpirationDate());
+        values.put(KEY_CARD_USERADDRESS, cardholder.getUserAddress());
+        values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
+        values.put(KEY_CARD_USERCITY, cardholder.getUserCountry());
+        values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
+        values.put(KEY_CARD_USERZIPCODE, cardholder.getUserZipCode());
 
         db.insert(TABLE_REGISTRATIONS, null, values);
         db.close();
