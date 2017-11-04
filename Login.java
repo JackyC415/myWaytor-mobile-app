@@ -2,25 +2,25 @@ package com.example.jchen415.mywaytor_mobile_application;
 
 public class Login {
 
-    String loginID;
-    String loginUsername;
-    String loginPassword;
+    private int loginID;
+    private String loginUsername;
+    private String loginPassword;
 
     public Login() {
 
     }
 
-    public Login (String loginID, String loginUsername, String loginPassword) {
+    public Login (Integer loginID, String loginUsername, String loginPassword) {
         this.loginID = loginID;
         this.loginUsername = loginUsername;
         this.loginPassword = loginPassword;
     }
 
-    public String getLoginID() {
-        return loginID;
+    public int gettLoginID(int loginID) {
+        this.loginID = loginID;
     }
 
-    public void setLoginID(String loginID) {
+    public void setLoginID(int loginID) {
         this.loginID = loginID;
     }
 
@@ -39,5 +39,4 @@ public class Login {
     public void setLoginPassword(String loginPassword) {
         this.loginPassword = loginPassword;
     }
-
 }
