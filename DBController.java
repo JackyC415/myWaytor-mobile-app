@@ -121,6 +121,25 @@ public class DBController extends SQLiteOpenHelper {
         db.insert(TABLE_REGISTRATIONS, null, values);
         db.close();
     }
+    
+    //Database insert user card data routine
+    public void insertCardData(CardHolder cardholder {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_REGISTRATION_USERFIRSTNAME, cardholder.getCardHolderName());
+        values.put(KEY_REGISTRATION_USERLASTNAME, cardholder.getCardNumber());
+        values.put(KEY_REGISTRATION_USERNAME, cardholder.getCvvNumber());
+        values.put(KEY_REGISTRATION_USERPASSWORD, cardholder.getExpirationDate());
+        values.put(KEY_REGISTRATION_USERAGE, cardholder.getUserAddress());
+        values.put(KEY_REGISTRATION_USERGENDER, cardholder.getUserCity());
+        values.put(KEY_REGISTRATION_USEREMAIL, cardholder.getUserCountry());
+        values.put(KEY_REGISTRATION_USEREMAIL, cardholder.getUserState());
+        values.put(KEY_REGISTRATION_USEREMAIL, cardholder.getUserZipCode());
+
+        db.insert(TABLE_REGISTRATIONS, null, values);
+        db.close();
+    }
 
     //Database retrieve user registration data routine
     public List<Registration> getAllRegistrations() {
@@ -163,6 +182,7 @@ public class DBController extends SQLiteOpenHelper {
 
         return db.update(TABLE_REGISTRATIONS, values, KEY_REGISTRATION_pID + "=?",
                 new String[]{String.valueOf(registration.getPrimaryID())});
+        db.close();
     }
 
     //Database delete user registration data routine
