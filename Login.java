@@ -1,7 +1,7 @@
 package com.example.jchen415.mywaytor_mobile_application;
 
 public class Login {
-
+    
     private int loginID;
     private String loginUsername;
     private String loginPassword;
@@ -16,8 +16,8 @@ public class Login {
         this.loginPassword = loginPassword;
     }
 
-    public int gettLoginID(int loginID) {
-        this.loginID = loginID;
+    public int getLoginID() {
+        return loginID;
     }
 
     public void setLoginID(int loginID) {
