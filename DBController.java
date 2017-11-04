@@ -9,14 +9,10 @@ import java.util.*;
 //Database controller; responsible for manipulating all database interaction activities.
 //Functions include, but not limited to, insert, update, retrieve, edit and delete.
 //Future implementations will include authentications and verifications.
-
 public class DBController extends SQLiteOpenHelper {
 
-    //Database Version
-    private static final int DATABASE_VERSION = 1;
-
     //Database Name
-    private static final String DATABASE_NAME = "myWaytor.DB";
+    private static final String DATABASE_NAME = "myWaytor.db";
 
     //Database Table names
     private static final String TABLE_LOGIN = "Login";
@@ -49,6 +45,28 @@ public class DBController extends SQLiteOpenHelper {
     private static final String KEY_CARD_USERZIPCODE = "cardZipCode";
     private static final String KEY_CARD_USERCOUNTRY = "cardCountry";
 
+    private static final String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN
+            + KEY_LOGIN_pID + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_LOGIN_USERNAME + " TEXT,"
+            + KEY_LOGIN_PASSWORD + " TEXT" + ");";
+
+    private static final String CREATE_REGISTRATION_TABLE = "CREATE TABLE " + TABLE_REGISTRATIONS
+            + KEY_REGISTRATION_pID + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_REGISTRATION_USERFIRSTNAME + " TEXT," + KEY_REGISTRATION_USERLASTNAME + " TEXT,"
+            + KEY_REGISTRATION_USERNAME + " TEXT," + KEY_REGISTRATION_USERPASSWORD + " TEXT,"
+            + KEY_REGISTRATION_USERAGE + " INTEGER," + KEY_REGISTRATION_USERGENDER + " TEXT,"
+            + KEY_REGISTRATION_USEREMAIL + " TEXT" + ");";
+
+    private static final String CREATE_CARDHOLDER_TABLE = "CREATE TABLE " + TABLE_CARDHOLDER
+            + KEY_CARD_pID + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_CARD_NUMBER + " INTEGER,"
+            + KEY_CARD_EXPIRATIONDATE + " INTEGER,"
+            + KEY_CARD_CVV + " INTEGER,"
+            + KEY_CARD_USERADDRESS + " TEXT,"
+            + KEY_CARD_USERCITY + " TEXT,"
+            + KEY_CARD_USERSTATE + " TEXT,"
+            + KEY_CARD_USERZIPCODE + " INTEGER,"
+            + KEY_CARD_USERCOUNTRY + " TEXT" + ");";
 
     //Default constructor which generates the database
     public DBController(Context context) {
@@ -58,23 +76,7 @@ public class DBController extends SQLiteOpenHelper {
     //Generating Database Tables for Login, Registration and CardHolder
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        String CREATE_LOGIN_TABLE = "create table" + TABLE_LOGIN + "("
-                + KEY_LOGIN_pID + "LOGIN PRIMARY KEY ID,"  + KEY_LOGIN_USERNAME + " TEXT," +
-                KEY_LOGIN_PASSWORD + " TEXT" + ");";
-
-        String CREATE_REGISTRATION_TABLE = "create table" + TABLE_REGISTRATIONS + "("
-                + KEY_REGISTRATION_pID + "REGISTRATION PRIMARY KEY ID," + KEY_REGISTRATION_USERFIRSTNAME +
-                " TEXT," + KEY_REGISTRATION_USERLASTNAME + " TEXT," + KEY_REGISTRATION_USERNAME +
-                " TEXT," + KEY_REGISTRATION_USERPASSWORD + " TEXT," + KEY_REGISTRATION_USERAGE + " TEXT,"
-                + KEY_REGISTRATION_USERGENDER + " TEXT," + KEY_REGISTRATION_USEREMAIL + " TEXT" + ");";
-
-        String CREATE_CARDHOLDER_TABLE = "create table" + TABLE_CARDHOLDER + "(" + KEY_CARD_pID
-                + "PRIMARY KEY ID," + KEY_CARD_NUMBER + "TEXT" + KEY_CARD_EXPIRATIONDATE + " TEXT," +
-                KEY_CARD_CVV + " TEXT," + KEY_CARD_USERADDRESS + "TEXT" + KEY_CARD_USERCITY + " TEXT,"
-                + KEY_CARD_USERSTATE + " TEXT," + KEY_CARD_USERZIPCODE + " TEXT," + KEY_CARD_USERCOUNTRY
-                + " TEXT" + ");";
-
+        //execute SQL commands
         db.execSQL(CREATE_LOGIN_TABLE);
         db.execSQL(CREATE_REGISTRATION_TABLE);
         db.execSQL(CREATE_CARDHOLDER_TABLE);
@@ -83,21 +85,19 @@ public class DBController extends SQLiteOpenHelper {
     //Database upgrade routine
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         //Drop previous table if exists
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REGISTRATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARDHOLDER);
-
         //Regenerate table
         onCreate(db);
     }
 
+    //Database insert login data routine
     public void insertLoginData(Login login) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_LOGIN_pID, login.getLoginID());
         values.put(KEY_LOGIN_USERNAME, login.getLoginUsername());
         values.put(KEY_LOGIN_PASSWORD, login.getLoginPassword());
 
@@ -110,7 +110,6 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_REGISTRATION_pID, registration.getPrimaryID());
         values.put(KEY_REGISTRATION_USERFIRSTNAME, registration.getUserFirstName());
         values.put(KEY_REGISTRATION_USERLASTNAME, registration.getUserLastName());
         values.put(KEY_REGISTRATION_USERNAME, registration.getUserName());
@@ -122,24 +121,6 @@ public class DBController extends SQLiteOpenHelper {
         db.insert(TABLE_REGISTRATIONS, null, values);
         db.close();
     }
-
-
-/*
-    Registration getRegistrationData(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_REGISTRATIONS,new String[] {KEY_ID,KEY_USERNAME,
-                KEY_USERPASSWORD,KEY_USERAGE,KEY_USERGENDER,KEY_USEREMAIL}, KEY_ID + "=?",
-                new String[]{String.valueOf(id)},null,null,null,null);
-
-        if(cursor != null) {
-            cursor.moveToFirst();
-        }
-        Registration registration = new Registration(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
-                cursor.getString(2), Integer.parseInt(cursor.getString(3)), cursor.getString(4), cursor.getString(5));
-        close();
-        return registration;
-    } */
 
     //Database retrieve user registration data routine
     public List<Registration> getAllRegistrations() {
@@ -173,7 +154,6 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_REGISTRATION_pID, registration.getPrimaryID());
         values.put(KEY_REGISTRATION_USERFIRSTNAME, registration.getUserFirstName());
         values.put(KEY_REGISTRATION_USERLASTNAME, registration.getUserLastName());
         values.put(KEY_REGISTRATION_USERNAME, registration.getUserName());
