@@ -2,14 +2,14 @@ package com.example.jchen415.mywaytor_mobile_application;
 
 public class Registration {
 
-    int primaryID = 0;
-    String userFirstName;
-    String userLastName;
-    String userName = "";
-    String userPassword = "";
-    int userAge = 0;
-    String userGender = "";
-    String userEmail = "";
+    private int primaryID;
+    private String userFirstName;
+    private String userLastName;
+    private String userName;
+    private String userPassword;
+    private int userAge;
+    private String userGender;
+    private String userEmail;
 
     public Registration() {
 
