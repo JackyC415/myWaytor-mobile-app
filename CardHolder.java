@@ -1,7 +1,8 @@
-package com.example.jchen415.mywaytor_mobile_application;
+package com.example.jchen415.mywaytormobileapplication;
 
 public class CardHolder {
 
+    private int primaryID;
     private String cardHolderName;
     private String cardNumber;
     private Integer expirationDate;
@@ -12,9 +13,10 @@ public class CardHolder {
     private Integer userZipCode;
     private String userCountry;
 
-    public CardHolder(String cardHolderName, String cardNumber, Integer expirationDate,
+    public CardHolder(int primaryID, String cardHolderName, String cardNumber, Integer expirationDate,
                             Integer cvvNumber, String userAddress, String userCity, String userState,
                             Integer userZipCode, String userCountry) {
+        this.primaryID = primaryID;
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
@@ -24,6 +26,14 @@ public class CardHolder {
         this.userState = userState;
         this.userZipCode = userZipCode;
         this.userCountry = userCountry;
+    }
+
+    public int getPrimaryID() {
+        return primaryID;
+    }
+
+    public void setPrimaryID(int primaryID) {
+        this.primaryID = primaryID;
     }
 
     public String getCardHolderName() {
@@ -97,5 +107,4 @@ public class CardHolder {
     public void setUserCountry(String userCountry) {
         this.userCountry = userCountry;
     }
-
 }
