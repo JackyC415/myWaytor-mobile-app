@@ -1,4 +1,4 @@
-package com.example.jchen415.mywaytor_mobile_application;
+package com.example.jchen415.mywaytormobileapplication;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +13,8 @@ public class DBController extends SQLiteOpenHelper {
 
     //Database Name
     private static final String DATABASE_NAME = "myWaytor.db";
+    //Database Version
+    private static final int DATABASE_VERSION = 1;
 
     //Database Table names
     private static final String TABLE_REGISTRATIONS = "Registration";
@@ -39,17 +41,18 @@ public class DBController extends SQLiteOpenHelper {
     private static final String KEY_CARD_USERZIPCODE = "C_ZIPCODE";
     private static final String KEY_CARD_USERCOUNTRY = "C_COUNTRY";
 
+
     //Default constructor which generates the database
     public DBController(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
     //Generating Database Tables for Registration and CardHolder
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_REGISTRATIONS + " (R_ID INTEGER PRIMARY KEY AUTOINCREMENT, R_FIRST TEXT NOT NULL, R_LAST TEXT NOT NULL, R_USER TEXT NOT NULL, R_PASS TEXT NOT NULL, R_AGE INTEGER NOT NULL, R_GENDER TEXT NOT NULL, R_EMAIL TEXT NOT NULL)");
-        db.execSQL("create table " + TABLE_CARDHOLDER + " (C_ID INTEGER PRIMARY KEY AUTOINCREMENT, C_NUMBER TEXT NOT NULL, C_EXPIRATION INTEGER NOT NULL, C_CVV INTEGER NOT NULL, C_ADDRESS TEXT NOT NULL, C_CITY TEXT NOT NULL, C_STATE TEXT NOT NULL, C_ZIPCODE INTEGER NOT NULL, C_COUNTRY TEXT NOT NULL)");
+            db.execSQL("create table " + TABLE_REGISTRATIONS + " (R_ID INTEGER PRIMARY KEY AUTOINCREMENT, R_FIRST TEXT NOT NULL, R_LAST TEXT NOT NULL, R_USER TEXT NOT NULL, R_PASS TEXT NOT NULL, R_AGE INTEGER NOT NULL, R_GENDER TEXT NOT NULL, R_EMAIL TEXT NOT NULL)");
+            db.execSQL("create table " + TABLE_CARDHOLDER + " (C_ID INTEGER PRIMARY KEY AUTOINCREMENT, C_NUMBER TEXT NOT NULL, C_EXPIRATION INTEGER NOT NULL, C_CVV INTEGER NOT NULL, C_ADDRESS TEXT NOT NULL, C_CITY TEXT NOT NULL, C_STATE TEXT NOT NULL, C_ZIPCODE INTEGER NOT NULL, C_COUNTRY TEXT NOT NULL)");
     }
 
     //Database upgrade routine
@@ -63,7 +66,7 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     //Database insert user registration data routine
-    public boolean insertRegistrationData(Registration registration) {
+    public void insertRegistrationData(Registration registration) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -74,14 +77,8 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_REGISTRATION_USERAGE, registration.getUserAge());
         values.put(KEY_REGISTRATION_USERGENDER, registration.getUserGender());
         values.put(KEY_REGISTRATION_USEREMAIL, registration.getUserEmail());
-        long inserted = db.insert(TABLE_REGISTRATIONS, null, values);
 
-        if (inserted == -1) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        db.insert(TABLE_REGISTRATIONS, null, values);
     }
 
     //Database insert user card data routine
@@ -105,9 +102,10 @@ public class DBController extends SQLiteOpenHelper {
     //Database retrieve user registration data routine
     public List<Registration> getAllRegistrations() {
         SQLiteDatabase db = this.getReadableDatabase();
-        List<Registration> registrationList = new ArrayList<>();
+        List<Registration> registrationList = new ArrayList<Registration>();
 
         String ListQuery = "SELECT * FROM " + TABLE_REGISTRATIONS;
+
         Cursor cursor = db.rawQuery(ListQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -122,9 +120,9 @@ public class DBController extends SQLiteOpenHelper {
                 registration.setUserEmail(cursor.getString(6));
 
                 registrationList.add(registration);
+
             } while (cursor.moveToNext());
         }
-        close();
         return registrationList;
     }
 
@@ -145,10 +143,23 @@ public class DBController extends SQLiteOpenHelper {
                 new String[]{String.valueOf(registration.getPrimaryID())});
     }
 
+    //Database update user card data routine
+    public int updateCard(Registration registration) {
+
+        return 1;
+    }
+
     //Database delete user registration data routine
     public void deleteRegistration(Registration registration) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_REGISTRATIONS, KEY_REGISTRATION_pID + "=?", new String[]{String.valueOf(registration.getPrimaryID())});
+        db.close();
+    }
+
+    //Database delete user card data routine
+    public void deleteCard(CardHolder cardholder) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_REGISTRATIONS, KEY_REGISTRATION_pID + "=?", new String[]{String.valueOf(cardholder.getPrimaryID())});
         db.close();
     }
 
