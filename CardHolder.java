@@ -5,17 +5,17 @@ public class CardHolder {
     private int primaryID;
     private String cardHolderName;
     private String cardNumber;
-    private Integer expirationDate;
-    private Integer cvvNumber;
+    private int expirationDate;
+    private int cvvNumber;
     private String userAddress;
     private String userCity;
     private String userState;
-    private Integer userZipCode;
+    private int userZipCode;
     private String userCountry;
 
-    public CardHolder(int primaryID, String cardHolderName, String cardNumber, Integer expirationDate,
-                            Integer cvvNumber, String userAddress, String userCity, String userState,
-                            Integer userZipCode, String userCountry) {
+    public CardHolder(int primaryID, String cardHolderName, String cardNumber, int expirationDate,
+                            int cvvNumber, String userAddress, String userCity, String userState,
+                            int userZipCode, String userCountry) {
         this.primaryID = primaryID;
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
@@ -52,7 +52,7 @@ public class CardHolder {
         this.cardNumber = cardNumber;
     }
 
-    public Integer getExpirationDate() {
+    public int getExpirationDate() {
         return expirationDate;
     }
 
@@ -60,7 +60,7 @@ public class CardHolder {
         this.expirationDate = expirationDate;
     }
 
-    public Integer getCvvNumber() {
+    public int getCvvNumber() {
         return cvvNumber;
     }
 
@@ -92,7 +92,7 @@ public class CardHolder {
         this.userState = userState;
     }
 
-    public Integer getUserZipCode() {
+    public int getUserZipCode() {
         return userZipCode;
     }
 
