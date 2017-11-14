@@ -16,10 +16,22 @@
         android:ems="10"
         android:hint="Full Name"
         android:inputType="textPersonName"
-        android:text="Name on Card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/etCardNumber"
+        android:layout_width="319dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Full Card Number"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCardName" />
 
     <EditText
         android:id="@+id/etExpirationDate"
@@ -30,8 +42,6 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Expiration Date"
-        android:inputType="date"
-        android:text="Expiration Date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCardNumber" />
@@ -46,7 +56,6 @@
         android:ems="10"
         android:hint="CVV on back of card"
         android:inputType="number"
-        android:text="CVV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etExpirationDate" />
@@ -61,7 +70,6 @@
         android:ems="10"
         android:hint="Billing Address"
         android:inputType="textPostalAddress"
-        android:text="Billing Address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCVV" />
@@ -76,7 +84,6 @@
         android:ems="10"
         android:hint="City of Billing Address"
         android:inputType="textPersonName"
-        android:text="City"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etBillingAddress" />
@@ -91,7 +98,6 @@
         android:ems="10"
         android:hint="Address State"
         android:inputType="textPersonName"
-        android:text="State"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCity" />
@@ -102,15 +108,28 @@
         android:layout_height="42dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Zipcode"
         android:inputType="number"
-        android:text="zipcode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etState" />
+        app:layout_constraintTop_toBottomOf="@+id/etCountry" />
 
+    <EditText
+        android:id="@+id/etCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Country"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etState" />
     <Button
         android:id="@+id/bAddCard"
         android:layout_width="wrap_content"
@@ -119,43 +138,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Add Card"
+        android:hint="Add Card"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etZipcode"
-        app:layout_constraintVertical_bias="0.642" />
-
-    <EditText
-        android:id="@+id/etCardNumber"
-        android:layout_width="319dp"
-        android:layout_height="43dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Full Card Number"
-        android:inputType="number"
-        android:text="Card Number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCardName" />
-
-    <EditText
-        android:id="@+id/etCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Country"
-        android:inputType="date"
-        android:text="Country"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="351dp" />
+        app:layout_constraintTop_toBottomOf="@+id/etZipcode" />
 
 </android.support.constraint.ConstraintLayout>
