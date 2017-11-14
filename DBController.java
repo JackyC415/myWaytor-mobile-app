@@ -32,13 +32,14 @@ public class DBController extends SQLiteOpenHelper {
 
     //CardHolder Table Column Names
     private static final String KEY_CARD_pID = "C_ID";
+    private static final String KEY_CARD_NAME = "C_NAME";
     private static final String KEY_CARD_NUMBER = "C_NUMBER";
     private static final String KEY_CARD_EXPIRATIONDATE = "C_EXPIRATION";
     private static final String KEY_CARD_CVV = "C_CVV";
     private static final String KEY_CARD_USERADDRESS = "C_ADDRESS";
+    private static final String KEY_CARD_USERZIPCODE = "C_ZIPCODE";
     private static final String KEY_CARD_USERCITY = "C_CITY";
     private static final String KEY_CARD_USERSTATE = "C_STATE";
-    private static final String KEY_CARD_USERZIPCODE = "C_ZIPCODE";
     private static final String KEY_CARD_USERCOUNTRY = "C_COUNTRY";
 
 
@@ -52,15 +53,15 @@ public class DBController extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
             db.execSQL("create table " + TABLE_REGISTRATIONS + " (R_ID INTEGER PRIMARY KEY AUTOINCREMENT, R_FIRST TEXT NOT NULL, R_LAST TEXT NOT NULL, R_USER TEXT NOT NULL, R_PASS TEXT NOT NULL, R_AGE INTEGER NOT NULL, R_GENDER TEXT NOT NULL, R_EMAIL TEXT NOT NULL)");
-            db.execSQL("create table " + TABLE_CARDHOLDER + " (C_ID INTEGER PRIMARY KEY AUTOINCREMENT, C_NUMBER TEXT NOT NULL, C_EXPIRATION INTEGER NOT NULL, C_CVV INTEGER NOT NULL, C_ADDRESS TEXT NOT NULL, C_CITY TEXT NOT NULL, C_STATE TEXT NOT NULL, C_ZIPCODE INTEGER NOT NULL, C_COUNTRY TEXT NOT NULL)");
+            db.execSQL("create table " + TABLE_CARDHOLDER + " (C_ID INTEGER PRIMARY KEY AUTOINCREMENT, C_NAME TEXT NOT NULL, C_NUMBER TEXT NOT NULL, C_EXPIRATION INTEGER NOT NULL, C_CVV INTEGER NOT NULL, C_ADDRESS TEXT NOT NULL, C_ZIPCODE INTEGER NOT NULL, C_CITY TEXT NOT NULL, C_STATE TEXT NOT NULL, C_COUNTRY TEXT NOT NULL)");
     }
 
     //Database upgrade routine
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //Drop previous table if exists
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REGISTRATIONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARDHOLDER);
+        //Drop previous table if exists (Irrelevant for now, since we want to save our previous data)
+        // db.execSQL("DROP TABLE IF EXISTS " + TABLE_REGISTRATIONS);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARDHOLDER);
         //Regenerate table
         onCreate(db);
     }
@@ -87,16 +88,17 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_CARD_NAME, cardholder.getCardHolderName());
         values.put(KEY_CARD_NUMBER, cardholder.getCardNumber());
-        values.put(KEY_CARD_CVV, cardholder.getCvvNumber());
         values.put(KEY_CARD_EXPIRATIONDATE, cardholder.getExpirationDate());
+        values.put(KEY_CARD_CVV, cardholder.getCvvNumber());
         values.put(KEY_CARD_USERADDRESS, cardholder.getUserAddress());
-        values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
-        values.put(KEY_CARD_USERCITY, cardholder.getUserCountry());
-        values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
         values.put(KEY_CARD_USERZIPCODE, cardholder.getUserZipCode());
+        values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
+        values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
+        values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
 
-        db.insert(TABLE_REGISTRATIONS, null, values);
+        db.insert(TABLE_CARDHOLDER, null, values);
         db.close();
     }
 
@@ -146,7 +148,7 @@ public class DBController extends SQLiteOpenHelper {
 
     //Database update user card data routine
     public int updateCard(Registration registration) {
-
+        //implement soon..
         return 1;
     }
 
