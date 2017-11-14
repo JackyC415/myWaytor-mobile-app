@@ -1,9 +1,11 @@
 package com.example.jchen415.mywaytormobileapplication;
+
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.*;
+
 import java.util.*;
 
 //Database controller; responsible for manipulating all database interaction activities
@@ -52,8 +54,8 @@ public class DBController extends SQLiteOpenHelper {
     //Generating Database Tables for Registration and CardHolder
     @Override
     public void onCreate(SQLiteDatabase db) {
-            db.execSQL("create table " + TABLE_REGISTRATIONS + " (R_ID INTEGER PRIMARY KEY AUTOINCREMENT, R_FIRST TEXT NOT NULL, R_LAST TEXT NOT NULL, R_USER TEXT NOT NULL, R_PASS TEXT NOT NULL, R_AGE INTEGER NOT NULL, R_GENDER TEXT NOT NULL, R_EMAIL TEXT NOT NULL)");
-            db.execSQL("create table " + TABLE_CARDHOLDER + " (C_ID INTEGER PRIMARY KEY AUTOINCREMENT, C_NAME TEXT NOT NULL, C_NUMBER TEXT NOT NULL, C_EXPIRATION INTEGER NOT NULL, C_CVV INTEGER NOT NULL, C_ADDRESS TEXT NOT NULL, C_ZIPCODE INTEGER NOT NULL, C_CITY TEXT NOT NULL, C_STATE TEXT NOT NULL, C_COUNTRY TEXT NOT NULL)");
+        db.execSQL("create table " + TABLE_REGISTRATIONS + " (R_ID INTEGER PRIMARY KEY AUTOINCREMENT, R_FIRST TEXT NOT NULL, R_LAST TEXT NOT NULL, R_USER TEXT UNIQUE, R_PASS TEXT NOT NULL, R_AGE INTEGER NOT NULL, R_GENDER TEXT NOT NULL, R_EMAIL TEXT UNIQUE)");
+        db.execSQL("create table " + TABLE_CARDHOLDER + " (C_ID INTEGER PRIMARY KEY AUTOINCREMENT, C_NAME TEXT NOT NULL, C_NUMBER TEXT NOT NULL, C_EXPIRATION INTEGER NOT NULL, C_CVV INTEGER NOT NULL, C_ADDRESS TEXT NOT NULL, C_ZIPCODE INTEGER NOT NULL, C_CITY TEXT NOT NULL, C_STATE TEXT NOT NULL, C_COUNTRY TEXT NOT NULL)");
     }
 
     //Database upgrade routine
@@ -106,9 +108,7 @@ public class DBController extends SQLiteOpenHelper {
     public List<Registration> getAllRegistrations() {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Registration> registrationList = new ArrayList<Registration>();
-
         String ListQuery = "SELECT * FROM " + TABLE_REGISTRATIONS;
-
         Cursor cursor = db.rawQuery(ListQuery, null);
 
         if (cursor.moveToFirst()) {
@@ -166,15 +166,15 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Database connection terminator routine
+    //Database connection terminator
     public void DBConnectionTerminator() {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null && db.isOpen()) {
             db.close();
         }
     }
-    //Database Login Authentication routine
-     public String LoginAuth(String username) {
+
+    public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select R_USER, R_PASS from " + TABLE_REGISTRATIONS;
         Cursor cursor = db.rawQuery(query, null);
