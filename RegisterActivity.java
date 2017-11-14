@@ -9,13 +9,11 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.*;
 
-
-
 public class RegisterActivity extends AppCompatActivity {
 
     DBController db;
     Registration registration;
-  public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -70,9 +68,9 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter Password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                
                 db.insertRegistrationData(new Registration(1, FirstName,LastName, age,Gender,Email,Username,Password));
-
+                
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
