@@ -179,7 +179,7 @@ public class DBController extends SQLiteOpenHelper {
         String query = "select R_USER, R_PASS from " + TABLE_REGISTRATIONS;
         Cursor cursor = db.rawQuery(query, null);
         String user, pass;
-         
+        pass = "";
         if (cursor.moveToFirst()) {
             do {
                 user = cursor.getString(0);
