@@ -174,21 +174,21 @@ public class DBController extends SQLiteOpenHelper {
         }
     }
     //Database Login Authentication routine
-     public String searchPass(String username) {
+     public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select R_USER, R_PASS from " + TABLE_REGISTRATIONS;
         Cursor cursor = db.rawQuery(query, null);
-        String a, b;
-        b = "not found";
+        String user, pass;
+         
         if (cursor.moveToFirst()) {
             do {
-                a = cursor.getString(0);
-                if (a.equals(username)) {
-                    b = cursor.getString(1);
+                user = cursor.getString(0);
+                if (user.equals(username)) {
+                    pass = cursor.getString(1);
                     break;
                 }
             } while (cursor.moveToNext());
         }
-        return b;
+        return pass;
     }
 }
