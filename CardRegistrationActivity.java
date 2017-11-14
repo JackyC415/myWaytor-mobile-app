@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 public class CardRegistrationActivity extends AppCompatActivity {
 
     DBController db;
@@ -17,14 +16,16 @@ public class CardRegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_registration);
         db = new DBController(this);
+
         final EditText etCardName = (EditText) findViewById(R.id.etCardName);
+        final EditText etCardNumber = (EditText) findViewById(R.id.etCardNumber);
         final EditText etExpirationDate = (EditText) findViewById(R.id.etExpirationDate);
         final EditText etCVV = (EditText) findViewById(R.id.etCVV);
-        final EditText etZipcode = (EditText) findViewById(R.id.etZipcode);
         final EditText etBillingAddress = (EditText) findViewById(R.id.etBillingAddress);
+        final EditText etZipcode = (EditText) findViewById(R.id.etZipcode);
         final EditText etCity = (EditText) findViewById(R.id.etCity);
         final EditText etState = (EditText) findViewById(R.id.etState);
-        final EditText etCardNumber = (EditText) findViewById(R.id.etCardNumber);
+        final EditText etCountry = (EditText) findViewById(R.id.etCountry);
 
         final Button bAddCard = (Button) findViewById(R.id.bAddCard);
         bAddCard.setText("Add Card");
@@ -32,14 +33,11 @@ public class CardRegistrationActivity extends AppCompatActivity {
         bAddCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final String CardName = etCardName.getText().toString();
+                final String CardNumber = etCardNumber.getText().toString();
                 final String ExpirationDate = etExpirationDate.getText().toString();
-                final String zipcode = etZipcode.getText().toString();
-                int Zipcode = Integer.valueOf(zipcode);
-                final String cvv = etCVV.getText().toString();
-                int CVV = Integer.parseInt(cvv);
+                final String ZipCode = etZipcode.getText().toString();
+                final String CVV = etCVV.getText().toString();
                 final String BillingAddress = etBillingAddress.getText().toString();
-                final String cardnumber = etCardNumber.getText().toString();
-                int CardNumber = Integer.parseInt(cardnumber);
                 final String City = etCity.getText().toString();
                 final String State = etState.getText().toString();
                 final String Country = etCountry.getText().toString();
@@ -48,7 +46,7 @@ public class CardRegistrationActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter Card Name!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(cardnumber)) {
+                if (TextUtils.isEmpty(CardNumber)) {
                     Toast.makeText(getApplicationContext(), "Enter Card Number!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -56,16 +54,16 @@ public class CardRegistrationActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter Expiration Date!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(zipcode)) {
-                    Toast.makeText(getApplicationContext(), "Enter Zip Code!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(cvv)) {
+                if (TextUtils.isEmpty(CVV)) {
                     Toast.makeText(getApplicationContext(), "Enter CVV!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(BillingAddress)) {
                     Toast.makeText(getApplicationContext(), "Enter Billing Address!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(ZipCode)) {
+                    Toast.makeText(getApplicationContext(), "Enter Zip Code!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(City)) {
@@ -81,9 +79,16 @@ public class CardRegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
+                //Converting String to Integer for object argument purposes
+                final int cardnumber = Integer.parseInt(CardNumber);
+                final int zipcode = Integer.parseInt(ZipCode);
+                final int cvv = Integer.parseInt(CVV);
+
+                //Next activity
                 startActivity(new Intent(CardRegistrationActivity.this, MenuActivity.class));
 
-                db.insertCardData(new CardHolder(1,CardName,CardNumber,ExpirationDate,Zipcode,CVV,BillingAddress,City,State,Country));
+                //Inserting card registration information...
+                db.insertCardData(new CardHolder(1,CardName,cardnumber,ExpirationDate,cvv,BillingAddress,zipcode,City,State,Country));
             }
         });
     }
