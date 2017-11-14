@@ -1,3 +1,4 @@
+package com.example.lap.mywaytor;
 package com.example.jchen415.mywaytormobileapplication;
 
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -47,13 +48,13 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     if (TextUtils.isEmpty(password)) {
                         Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     String dbPassword = db.LoginAuth(password);
-                    if (password.equals(dbPassword)) {
+
+                    if(password.equals(dbPassword)) {
                         startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
                     }
                 }
