@@ -72,13 +72,14 @@ public class DBController extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_REGISTRATION_USERFIRSTNAME, registration.getUserFirstName());
         values.put(KEY_REGISTRATION_USERLASTNAME, registration.getUserLastName());
-        values.put(KEY_REGISTRATION_USERNAME, registration.getUserName());
-        values.put(KEY_REGISTRATION_USERPASSWORD, registration.getUserPassword());
         values.put(KEY_REGISTRATION_USERAGE, registration.getUserAge());
         values.put(KEY_REGISTRATION_USERGENDER, registration.getUserGender());
         values.put(KEY_REGISTRATION_USEREMAIL, registration.getUserEmail());
+        values.put(KEY_REGISTRATION_USERNAME, registration.getUserName());
+        values.put(KEY_REGISTRATION_USERPASSWORD, registration.getUserPassword());
 
         db.insert(TABLE_REGISTRATIONS, null, values);
+        db.close();
     }
 
     //Database insert user card data routine
@@ -133,11 +134,11 @@ public class DBController extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_REGISTRATION_USERFIRSTNAME, registration.getUserFirstName());
         values.put(KEY_REGISTRATION_USERLASTNAME, registration.getUserLastName());
-        values.put(KEY_REGISTRATION_USERNAME, registration.getUserName());
-        values.put(KEY_REGISTRATION_USERPASSWORD, registration.getUserPassword());
         values.put(KEY_REGISTRATION_USERAGE, registration.getUserAge());
         values.put(KEY_REGISTRATION_USERGENDER, registration.getUserGender());
         values.put(KEY_REGISTRATION_USEREMAIL, registration.getUserEmail());
+        values.put(KEY_REGISTRATION_USERNAME, registration.getUserName());
+        values.put(KEY_REGISTRATION_USERPASSWORD, registration.getUserPassword());
 
         return db.update(TABLE_REGISTRATIONS, values, KEY_REGISTRATION_pID + "=?",
                 new String[]{String.valueOf(registration.getPrimaryID())});
