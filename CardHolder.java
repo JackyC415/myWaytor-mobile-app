@@ -14,7 +14,7 @@ public class CardHolder {
     private String userCountry;
 
     public CardHolder(int primaryID, String cardHolderName, int cardNumber, String expirationDate,
-                            int cvvNumber, String userAddress,  int userZipCode,
+                      int cvvNumber, String userAddress, int userZipCode,
                       String userCity, String userState, String userCountry) {
         this.primaryID = primaryID;
         this.cardHolderName = cardHolderName;
@@ -107,4 +107,5 @@ public class CardHolder {
     public void setUserCountry(String userCountry) {
         this.userCountry = userCountry;
     }
+
 }
