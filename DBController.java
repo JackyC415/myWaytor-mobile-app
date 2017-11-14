@@ -166,11 +166,29 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Database connection terminator
+    //Database connection terminator routine
     public void DBConnectionTerminator() {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null && db.isOpen()) {
             db.close();
         }
+    }
+    //Database Login Authentication routine
+     public String searchPass(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select R_USER, R_PASS from " + TABLE_REGISTRATIONS;
+        Cursor cursor = db.rawQuery(query, null);
+        String a, b;
+        b = "not found";
+        if (cursor.moveToFirst()) {
+            do {
+                a = cursor.getString(0);
+                if (a.equals(username)) {
+                    b = cursor.getString(1);
+                    break;
+                }
+            } while (cursor.moveToNext());
+        }
+        return b;
     }
 }
