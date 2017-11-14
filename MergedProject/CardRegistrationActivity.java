@@ -1,4 +1,4 @@
-package com.example.jchen415.mywaytormobileapplication;
+package com.example.lap.mywaytor;
 
 import android.content.Intent;
 import android.os.Bundle;
