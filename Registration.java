@@ -1,4 +1,4 @@
-package com.example.jchen415.mywaytor_mobile_application;
+package com.example.jchen415.mywaytormobileapplication;
 
 public class Registration {
 
@@ -15,7 +15,7 @@ public class Registration {
 
     }
 
-    public Registration(int primaryID, String userFirstName, String userLastName, String userName, String userPassword, int userAge, String userGender, String userEmail) {
+    public Registration(int primaryID, String userFirstName, String userLastName, int userAge, String userGender, String userEmail, String userName, String userPassword) {
         this.primaryID = primaryID;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
