@@ -1,4 +1,4 @@
-package com.example.lap.mywaytor;
+package com.example.jchen415.mywaytormobileapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +13,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnRegister, btnLogin;
     DBController db;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         db = new DBController(this);
-
-
 
         inputEmail = (EditText) findViewById(R.id.etInputUsername);
         inputPassword = (EditText) findViewById(R.id.etInputPassword);
@@ -27,23 +26,20 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.bLogin);
         AddData();
     }
+
     public void AddData() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Login login = new Login();
-               //login.setLoginPassword("bye");
-                //login.setLoginUsername("hello");
-                //db.insertLoginData(login);
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
 
         });
-         btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(v.getId() == R.id.bLogin) {
+                if (v.getId() == R.id.bLogin) {
                     String username = inputEmail.getText().toString();
                     String password = inputPassword.getText().toString();
 
@@ -57,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     String dbPassword = db.LoginAuth(password);
-                    if(password.equals(dbPassword)) {
+                    if (password.equals(dbPassword)) {
                         startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
                     }
                 }
