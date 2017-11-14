@@ -1,5 +1,4 @@
 package com.example.lap.mywaytor;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.*;
@@ -19,8 +18,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         db = new DBController(this);
 
-
-
         inputEmail = (EditText) findViewById(R.id.etInputUsername);
         inputPassword = (EditText) findViewById(R.id.etInputPassword);
         btnRegister = (Button) findViewById(R.id.bRegisterLink);
@@ -31,10 +28,6 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Login login = new Login();
-               //login.setLoginPassword("bye");
-                //login.setLoginUsername("hello");
-                //db.insertLoginData(login);
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
 
@@ -45,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
+
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
                     return;
@@ -53,6 +47,13 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (email != "1"){
+                    if (password != "1"){
+                        return;
+                    }
+                    return;
+                }
+
                 startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
             }
 
