@@ -39,25 +39,29 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString();
-                String password = inputPassword.getText().toString();
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
+                if(v.getId() == R.id.bLogin) {
+                    String username = inputEmail.getText().toString();
+                    String password = inputPassword.getText().toString();
+
+                    if (TextUtils.isEmpty(username)) {
+                        Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (TextUtils.isEmpty(password)) {
+                        Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String dbPassword = db.LoginAuth(password);
+                    if(password.equals(dbPassword)) {
+                        startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
+                    }
                 }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
             }
-
-
         });
     }
-
 }
