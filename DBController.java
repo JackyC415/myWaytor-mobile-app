@@ -147,11 +147,23 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     //Database update user card data routine
-    public int updateCard(Registration registration) {
-        //implement soon..
-        return 1;
-    }
+    public int updateCard(CardHolder cardholder) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(KEY_CARD_NAME, cardholder.getCardHolderName());
+        values.put(KEY_CARD_NUMBER, cardholder.getCardNumber());
+        values.put(KEY_CARD_EXPIRATIONDATE, cardholder.getExpirationDate());
+        values.put(KEY_CARD_CVV, cardholder.getCvvNumber());
+        values.put(KEY_CARD_USERADDRESS, cardholder.getUserAddress());
+        values.put(KEY_CARD_USERZIPCODE, cardholder.getUserZipCode());
+        values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
+        values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
+        values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
+        return db.update(TABLE_CARDHOLDER, values, KEY_CARD_pID + "=?",
+                new String[]{String.valueOf(cardholder.getPrimaryID())});
+    }
+    
     //Database delete user registration data routine
     public void deleteRegistration(Registration registration) {
         SQLiteDatabase db = this.getWritableDatabase();
