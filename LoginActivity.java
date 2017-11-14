@@ -1,4 +1,6 @@
 package com.example.lap.mywaytor;
+package com.example.jchen415.mywaytormobileapplication;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.*;
@@ -12,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnRegister, btnLogin;
     DBController db;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.bLogin);
         AddData();
     }
+
     public void AddData() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(v.getId() == R.id.bLogin) {
+                if (v.getId() == R.id.bLogin) {
                     String username = inputEmail.getText().toString();
                     String password = inputPassword.getText().toString();
 
@@ -44,12 +48,12 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     if (TextUtils.isEmpty(password)) {
                         Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     String dbPassword = db.LoginAuth(password);
+
                     if(password.equals(dbPassword)) {
                         startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
                     }
@@ -57,5 +61,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 }

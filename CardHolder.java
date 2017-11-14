@@ -4,27 +4,27 @@ public class CardHolder {
 
     private int primaryID;
     private String cardHolderName;
-    private String cardNumber;
-    private Integer expirationDate;
-    private Integer cvvNumber;
+    private int cardNumber;
+    private String expirationDate;
+    private int cvvNumber;
     private String userAddress;
+    private int userZipCode;
     private String userCity;
     private String userState;
-    private Integer userZipCode;
     private String userCountry;
 
-    public CardHolder(int primaryID, String cardHolderName, String cardNumber, Integer expirationDate,
-                            Integer cvvNumber, String userAddress, String userCity, String userState,
-                            Integer userZipCode, String userCountry) {
+    public CardHolder(int primaryID, String cardHolderName, int cardNumber, String expirationDate,
+                      int cvvNumber, String userAddress, int userZipCode,
+                      String userCity, String userState, String userCountry) {
         this.primaryID = primaryID;
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.cvvNumber = cvvNumber;
         this.userAddress = userAddress;
+        this.userZipCode = userZipCode;
         this.userCity = userCity;
         this.userState = userState;
-        this.userZipCode = userZipCode;
         this.userCountry = userCountry;
     }
 
@@ -44,27 +44,27 @@ public class CardHolder {
         this.cardHolderName = cardHolderName;
     }
 
-    public String getCardNumber() {
+    public int getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(String cardNumber) {
+    public void setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
     }
 
-    public Integer getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Integer expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public Integer getCvvNumber() {
+    public int getCvvNumber() {
         return cvvNumber;
     }
 
-    public void setCvvNumber(Integer cvvNumber) {
+    public void setCvvNumber(int cvvNumber) {
         this.cvvNumber = cvvNumber;
     }
 
@@ -74,6 +74,14 @@ public class CardHolder {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public int getUserZipCode() {
+        return userZipCode;
+    }
+
+    public void setUserZipCode(Integer userZipCode) {
+        this.userZipCode = userZipCode;
     }
 
     public String getUserCity() {
@@ -92,14 +100,6 @@ public class CardHolder {
         this.userState = userState;
     }
 
-    public Integer getUserZipCode() {
-        return userZipCode;
-    }
-
-    public void setUserZipCode(Integer userZipCode) {
-        this.userZipCode = userZipCode;
-    }
-
     public String getUserCountry() {
         return userCountry;
     }
@@ -107,4 +107,5 @@ public class CardHolder {
     public void setUserCountry(String userCountry) {
         this.userCountry = userCountry;
     }
+
 }
