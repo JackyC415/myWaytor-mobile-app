@@ -32,33 +32,35 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+       btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString();
-                String password = inputPassword.getText().toString();
+                if (v.getId() == R.id.bLogin) {
+                    EditText user = (EditText) findViewById(R.id.etInputUsername);
+                    String username = user.getText().toString();
+                    EditText pass = (EditText) findViewById(R.id.etInputPassword);
+                    String password = pass.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (email != "1"){
-                    if (password != "1"){
+                    if (TextUtils.isEmpty(username)) {
+                        Toast.makeText(getApplicationContext(), "Enter username!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    return;
+
+                    if (TextUtils.isEmpty(password)) {
+                        Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String dbAuth = db.LoginAuth(username);
+                    if (password.equals(dbAuth)) {
+                        startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
+                    }
+                    else {
+                        Toast errorMsg = Toast.makeText(LoginActivity.this, "Username and Password not matched!", Toast.LENGTH_SHORT);
+                        errorMsg.show();
+                    }
                 }
-
-                startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
             }
-
-
         });
     }
-
 }
