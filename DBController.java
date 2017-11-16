@@ -284,7 +284,7 @@ public class DBController extends SQLiteOpenHelper {
 
     public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "select R_USER, R_PASS from " + TABLE_REGISTRATIONS;
+        String query = "select REGISTRATION_USER, REGISTRATION_PASS from " + TABLE_REGISTRATIONS;
         Cursor cursor = db.rawQuery(query, null);
         String user, pass;
         pass = "try again";
