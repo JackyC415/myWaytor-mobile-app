@@ -12,11 +12,13 @@ public class CardHolder {
     private String userCity;
     private String userState;
     private String userCountry;
+    private int card_registrationID;
 
     public CardHolder(int primaryID, String cardHolderName, int cardNumber, String expirationDate,
                       int cvvNumber, String userAddress, int userZipCode,
-                      String userCity, String userState, String userCountry) {
+                      String userCity, String userState, String userCountry, int card_registrationID) {
         this.primaryID = primaryID;
+
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
@@ -26,6 +28,7 @@ public class CardHolder {
         this.userCity = userCity;
         this.userState = userState;
         this.userCountry = userCountry;
+        this.card_registrationID = card_registrationID;
     }
 
     public int getPrimaryID() {
@@ -106,6 +109,14 @@ public class CardHolder {
 
     public void setUserCountry(String userCountry) {
         this.userCountry = userCountry;
+    }
+
+    public int getCard_registrationID() {
+        return card_registrationID;
+    }
+
+    public void setCard_registrationID(int card_registrationID) {
+        this.card_registrationID = card_registrationID;
     }
 
 }
