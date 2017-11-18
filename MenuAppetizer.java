@@ -3,20 +3,21 @@ package com.example.jchen415.mywaytormobileapplication;
 public class MenuAppetizer {
 
     private int appetizer_ID;
-    private String customer_Name;
     private String appetizer_Name;
     private double appetizer_Price;
     private int appetizer_Quantity;
+    private int appetizer_Registration_pID;
 
     public MenuAppetizer() {
 
     }
-    public MenuAppetizer(int appetizer_ID, String customer_Name, String appetizer_Name, double appetizer_Price, int appetizer_Quantity) {
+
+    public MenuAppetizer(int appetizer_ID, String appetizer_Name, double appetizer_Price, int appetizer_Quantity, int appetizer_Registration_pID) {
         this.appetizer_ID = appetizer_ID;
-        this.customer_Name = customer_Name;
         this.appetizer_Name = appetizer_Name;
         this.appetizer_Price = appetizer_Price;
         this.appetizer_Quantity = appetizer_Quantity;
+        this.appetizer_Registration_pID = appetizer_Registration_pID;
     }
 
     public int getAppetizer_ID() {
@@ -27,13 +28,6 @@ public class MenuAppetizer {
         this.appetizer_ID = appetizer_ID;
     }
 
-    public String getCustomer_Name() {
-        return customer_Name;
-    }
-
-    public void setCustomer_Name(String customer_Name) {
-        this.customer_Name = customer_Name;
-    }
 
     public String getAppetizer_Name() {
         return appetizer_Name;
@@ -57,5 +51,12 @@ public class MenuAppetizer {
 
     public void setAppetizer_Quantity(int appetizer_Quantity) {
         this.appetizer_Quantity = appetizer_Quantity;
+    }
+    public int getAppetizer_Registration_pID() {
+        return appetizer_Registration_pID;
+    }
+
+    public void setAppetizer_Registration_pID(int appetizer_Registration_pID) {
+        this.appetizer_Registration_pID = appetizer_Registration_pID;
     }
 }
