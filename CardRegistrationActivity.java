@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 public class CardRegistrationActivity extends AppCompatActivity {
 
     DBController db;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_registration);
@@ -26,7 +28,6 @@ public class CardRegistrationActivity extends AppCompatActivity {
         final EditText etCity = (EditText) findViewById(R.id.etCity);
         final EditText etState = (EditText) findViewById(R.id.etState);
         final EditText etCountry = (EditText) findViewById(R.id.etCountry);
-
         final Button bAddCard = (Button) findViewById(R.id.bAddCard);
         bAddCard.setText("Add Card");
 
@@ -83,12 +84,14 @@ public class CardRegistrationActivity extends AppCompatActivity {
                 final int cardnumber = Integer.parseInt(CardNumber);
                 final int zipcode = Integer.parseInt(ZipCode);
                 final int cvv = Integer.parseInt(CVV);
+                //Calling get foreign key function from database
+                int r_id = db.getFK();
 
+                //Inserting card registration information...
+                db.insertCardData(new CardHolder(1, CardName, cardnumber, ExpirationDate, cvv, BillingAddress, zipcode, City, State, Country, r_id));
                 //Next activity
                 startActivity(new Intent(CardRegistrationActivity.this, MenuActivity.class));
 
-                //Inserting card registration information...
-                db.insertCardData(new CardHolder(1,CardName,cardnumber,ExpirationDate,cvv,BillingAddress,zipcode,City,State,Country));
             }
         });
     }
