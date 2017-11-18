@@ -42,7 +42,7 @@ public class DBController extends SQLiteOpenHelper {
 
     //CardHolder Table Column Names
     private static final String KEY_CARD_pID = "CARD_pID";
-    private static final String KEY_CARD_REGISTRATION_pID = "REGISTRATION_pID";
+    private static final String KEY_CARD_REGISTRATION_pID = "CARD_REGISTRATION_pID";
     private static final String KEY_CARD_NAME = "CARD_NAME";
     private static final String KEY_CARD_NUMBER = "CARD_NUMBER";
     private static final String KEY_CARD_EXPIRATIONDATE = "CARD_EXPIRATION";
@@ -89,12 +89,11 @@ public class DBController extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //enable foreign key constraint
-    //    db.execSQL("PRAGMA foreign_keys=1");
+        // Enable foreign key constraints
+        db.execSQL("PRAGMA foreign_keys=1;");
         //create tables
         db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER PRIMARY KEY AUTOINCREMENT, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
-        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY AUTOINCREMENT, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL)");
-        //REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY(REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID)
+        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY AUTOINCREMENT, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID TEXT NOT NULL, FOREIGN KEY(CARD_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
         db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER PRIMARY KEY AUTOINCREMENT, DISH_NAME TEXT NOT NULL, DISH_PRICE DOUBLE NOT NULL, DISH_QUANTITY INTEGER NOT NULL)");
         db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER PRIMARY KEY AUTOINCREMENT, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE DOUBLE NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL)");
         db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER PRIMARY KEY AUTOINCREMENT, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE DOUBLE NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL)");
@@ -132,6 +131,18 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
+    public int getFK() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM Registration WHERE REGISTRATION_USER = '?'",null);
+        int FK = 0;
+        while(c.moveToNext()) {
+            FK = c.getInt(0);
+        }
+        c.close();
+        return FK;
+    }
+
     //Database insert user card data routine
     public void insertCardData(CardHolder cardholder) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -146,6 +157,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
         values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
         values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
+        values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
 
         db.insert(TABLE_CARDHOLDER, null, values);
         db.close();
@@ -260,6 +272,8 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
         values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
         values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
+        //values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
+
         return db.update(TABLE_CARDHOLDER, values, KEY_CARD_pID + "=?",
                 new String[]{String.valueOf(cardholder.getPrimaryID())});
     }
