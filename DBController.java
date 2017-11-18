@@ -58,24 +58,28 @@ public class DBController extends SQLiteOpenHelper {
     private static final String KEY_MENU_DISH_NAME = "DISH_NAME";
     private static final String KEY_MENU_DISH_PRICE = "DISH_PRICE";
     private static final String KEY_MENU_DISH_QUANTITY = "DISH_QUANTITY";
+    private static final String KEY_MENU_DISH_REGISTRATION_pID = "DISH_REGISTRATION_pID";
 
     //Menu Appetizer Table Column Names
     private static final String KEY_MENU_APPETIZER_pID = "APPETIZER_pID";
     private static final String KEY_MENU_APPETIZER_NAME = "APPETIZER_NAME";
     private static final String KEY_MENU_APPETIZER_PRICE = "APPETIZER_PRICE";
     private static final String KEY_MENU_APPETIZER_QUANTITY = "APPETIZER_QUANTITY";
+    private static final String KEY_MENU_APPETIZER_REGISTRATION_pID = "APPETIZER_REGISTRATION_pID";
 
     //Menu Drinks Table Column Names
     private static final String KEY_MENU_DRINKS_pID = "DRINKS_pID";
     private static final String KEY_MENU_DRINKS_NAME = "DRINKS_NAME";
     private static final String KEY_MENU_DRINKS_PRICE = "DRINKS_PRICE";
     private static final String KEY_MENU_DRINKS_QUANTITY = "DRINKS_QUANTITY";
+    private static final String KEY_MENU_DRINKS_REGISTRATION_pID = "DRINKS_REGISTRATION_pID";
 
     //Menu Desserts Table Column Names
     private static final String KEY_MENU_DESSERTS_pID = "DESSERTS_pID";
     private static final String KEY_MENU_DESSERTS_NAME = "DESSERTS_NAME";
     private static final String KEY_MENU_DESSERTS_PRICE = "DESSERTS_PRICE";
     private static final String KEY_MENU_DESSERTS_QUANTITY = "DESSERTS_QUANTITY";
+    private static final String KEY_MENU_DESSERTS_REGISTRATION_pID = "DESSERTS_REGISTRATION_pID";
 
     //Default constructor which generates the database
     public DBController(Context context) {
@@ -93,11 +97,11 @@ public class DBController extends SQLiteOpenHelper {
         db.execSQL("PRAGMA foreign_keys=1;");
         //create tables
         db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER PRIMARY KEY AUTOINCREMENT, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
-        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY AUTOINCREMENT, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID TEXT NOT NULL, FOREIGN KEY(CARD_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER PRIMARY KEY AUTOINCREMENT, DISH_NAME TEXT NOT NULL, DISH_PRICE DOUBLE NOT NULL, DISH_QUANTITY INTEGER NOT NULL)");
-        db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER PRIMARY KEY AUTOINCREMENT, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE DOUBLE NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL)");
-        db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER PRIMARY KEY AUTOINCREMENT, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE DOUBLE NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL)");
-        db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER PRIMARY KEY AUTOINCREMENT, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE DOUBLE NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL)");
+        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY AUTOINCREMENT, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID TEXT NOT NULL, FOREIGN KEY (CARD_REGISTRATION_pID) REFERENCES Registration (REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER PRIMARY KEY AUTOINCREMENT, DISH_NAME TEXT NOT NULL, DISH_PRICE DOUBLE NOT NULL, DISH_QUANTITY INTEGER NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER PRIMARY KEY AUTOINCREMENT, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE DOUBLE NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER PRIMARY KEY AUTOINCREMENT, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE DOUBLE NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER PRIMARY KEY AUTOINCREMENT, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE DOUBLE NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
     }
 
     //Database upgrade routine
@@ -171,6 +175,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_DISH_NAME, menuDish.getDish_Name());
         values.put(KEY_MENU_DISH_PRICE, menuDish.getDish_Price());
         values.put(KEY_MENU_DISH_QUANTITY, menuDish.getDish_Quantity());
+        values.put(KEY_MENU_DISH_REGISTRATION_pID, menuDish.getDish_Registration_pID());
 
         db.insert(TABLE_MENU_DISH, null, values);
         db.close();
@@ -184,6 +189,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_APPETIZER_NAME, menuAppetizer.getAppetizer_Name());
         values.put(KEY_MENU_APPETIZER_PRICE, menuAppetizer.getAppetizer_Price());
         values.put(KEY_MENU_APPETIZER_QUANTITY, menuAppetizer.getAppetizer_Quantity());
+        values.put(KEY_MENU_APPETIZER_REGISTRATION_pID, menuAppetizer.getAppetizer_Registration_pID());
 
         db.insert(TABLE_MENU_APPETIZER, null, values);
         db.close();
@@ -197,6 +203,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_DRINKS_NAME, menuDrinks.getDrinks_Name());
         values.put(KEY_MENU_DRINKS_PRICE, menuDrinks.getDrinks_Price());
         values.put(KEY_MENU_DRINKS_QUANTITY, menuDrinks.getDrinks_Quantity());
+        values.put(KEY_MENU_DRINKS_REGISTRATION_pID, menuDrinks.getDrinks_Registration_pID());
 
         db.insert(TABLE_MENU_DRINKS, null, values);
         db.close();
@@ -210,6 +217,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_DESSERTS_NAME, menuDesserts.getDesserts_Name());
         values.put(KEY_MENU_DESSERTS_PRICE, menuDesserts.getDesserts_Price());
         values.put(KEY_MENU_DESSERTS_QUANTITY, menuDesserts.getDesserts_Quantity());
+        values.put(KEY_MENU_DESSERTS_REGISTRATION_pID, menuDesserts.getDesserts_Registration_pID());
 
         db.insert(TABLE_MENU_DESSERTS, null, values);
         db.close();
@@ -272,7 +280,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
         values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
         values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
-        //values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
+        values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
 
         return db.update(TABLE_CARDHOLDER, values, KEY_CARD_pID + "=?",
                 new String[]{String.valueOf(cardholder.getPrimaryID())});
