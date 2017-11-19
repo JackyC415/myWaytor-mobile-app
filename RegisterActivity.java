@@ -40,6 +40,12 @@ public class RegisterActivity extends AppCompatActivity {
                 final String Gender = etGender.getText().toString();
                 final int age = Integer.parseInt(Age);
 
+                 if (TextUtils.isEmpty(FirstName) || TextUtils.isEmpty(LastName) || TextUtils.isEmpty(Username) || TextUtils.isEmpty(Password)
+                        || TextUtils.isEmpty(Age) || TextUtils.isEmpty(Email) || TextUtils.isEmpty(Gender)) {
+                    Toast errorMsg = Toast.makeText(RegisterActivity.this, "Please Fill in Every Rows!", Toast.LENGTH_SHORT);
+                    errorMsg.show();
+                }
+                
                 if (TextUtils.isEmpty(FirstName)) {
                     Toast.makeText(getApplicationContext(), "Enter First Name!", Toast.LENGTH_SHORT).show();
                     return;
