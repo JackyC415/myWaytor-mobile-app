@@ -133,10 +133,11 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Database match foreign key routine
     public int getFK() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM Registration ", null);
+        Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM " + TABLE_REGISTRATIONS, null);
         int FK = 0;
         while (c.moveToNext()) {
             FK = c.getInt(0);
@@ -145,15 +146,16 @@ public class DBController extends SQLiteOpenHelper {
         return FK;
     }
 
-   public boolean CheckCard() {
+    //Database validate card routine
+    public boolean CheckCard() {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CARDHOLDER, null);
 
         if (c != null && c.getCount() > 0) {
-                c.close();
-                return true;
-            }
+            c.close();
+            return true;
+        }
         return false;
     }
 
