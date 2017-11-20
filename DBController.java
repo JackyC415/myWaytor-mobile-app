@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.*;
+import android.util.Log;
 
 import java.util.*;
 
@@ -85,21 +86,25 @@ public class DBController extends SQLiteOpenHelper {
     public DBController(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         SQLiteDatabase db = this.getWritableDatabase();
-        // Enable foreign key constraints upon database create to ensure enforcement
-        db.execSQL("PRAGMA foreign_keys = 1;");
     }
 
     //Generating Database Tables for Registration, CardHolder and Four Menu Categories
     //Foreign Keys referencing Registration PK
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //create tables
-        db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INT NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
-        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INT NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, CARD_NAME TEXT NOT NULL, CARD_NUMBER INT UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INT NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID TEXT NOT NULL, FOREIGN KEY (CARD_REGISTRATION_pID) REFERENCES Registration (REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INT NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DISH_NAME TEXT NOT NULL, DISH_PRICE NUM NOT NULL, DISH_QUANTITY INT NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INT NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INT NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INT NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INT NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INT NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INT NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        // Enable foreign key constraints upon database create to ensure enforcement
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreign_keys = 1;");
+            Log.d("TAG", "Foreign Keys Constraint Enabled!!!");
+        }
+        //Create Tables
+        db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
+        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID TEXT NOT NULL, FOREIGN KEY (CARD_REGISTRATION_pID) REFERENCES Registration (REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DISH_NAME TEXT NOT NULL, DISH_PRICE NUM NOT NULL, DISH_QUANTITY INTEGER NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        Log.d("TAG", "Tables Created Successfully!!!");
     }
 
     //Database upgrade routine
@@ -130,10 +135,11 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_REGISTRATION_USERPASSWORD, registration.getUserPassword());
 
         db.insert(TABLE_REGISTRATIONS, null, values);
+        Log.d("TAG", "Registration Data Inserted Successfully!!!");
         db.close();
     }
-    
-     public String LoginAuth(String username) {
+
+    public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select REGISTRATION_USER, REGISTRATION_PASS from " + TABLE_REGISTRATIONS;
         Cursor cursor = db.rawQuery(query, null);
@@ -150,7 +156,6 @@ public class DBController extends SQLiteOpenHelper {
         }
         return pass;
     }
-}
 
     //Database match foreign key routine
     public int getFK() {
@@ -195,6 +200,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
 
         db.insert(TABLE_CARDHOLDER, null, values);
+        Log.d("TAG", "Cardholder Data Inserted Successfully!!!");
         db.close();
     }
 
@@ -209,6 +215,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_DISH_REGISTRATION_pID, menuDish.getDish_Registration_pID());
 
         db.insert(TABLE_MENU_DISH, null, values);
+        Log.d("TAG", "Dish Menu Data Inserted Successfully!!!");
         db.close();
     }
 
@@ -223,6 +230,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_APPETIZER_REGISTRATION_pID, menuAppetizer.getAppetizer_Registration_pID());
 
         db.insert(TABLE_MENU_APPETIZER, null, values);
+        Log.d("TAG", "Appetizer Menu Data Inserted Successfully!!!");
         db.close();
     }
 
@@ -237,6 +245,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_DRINKS_REGISTRATION_pID, menuDrinks.getDrinks_Registration_pID());
 
         db.insert(TABLE_MENU_DRINKS, null, values);
+        Log.d("TAG", "Drinks Menu Data Inserted Successfully!!!");
         db.close();
     }
 
@@ -251,6 +260,7 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_MENU_DESSERTS_REGISTRATION_pID, menuDesserts.getDesserts_Registration_pID());
 
         db.insert(TABLE_MENU_DESSERTS, null, values);
+        Log.d("TAG", "Desserts Menu Data Inserted Successfully!!!");
         db.close();
     }
 
@@ -338,3 +348,4 @@ public class DBController extends SQLiteOpenHelper {
             db.close();
         }
     }
+}
