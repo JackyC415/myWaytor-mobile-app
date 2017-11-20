@@ -139,6 +139,7 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Database login authentication routine
     public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select REGISTRATION_USER, REGISTRATION_PASS from " + TABLE_REGISTRATIONS;
