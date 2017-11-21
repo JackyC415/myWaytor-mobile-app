@@ -82,6 +82,15 @@ public class DBController extends SQLiteOpenHelper {
     private static final String KEY_MENU_DESSERTS_QUANTITY = "DESSERTS_QUANTITY";
     private static final String KEY_MENU_DESSERTS_REGISTRATION_pID = "DESSERTS_REGISTRATION_pID";
 
+    //Receipt Table Column Names
+    private static final String KEY_RECEIPT_pID = "RECEIPT_pID";
+    private static final String KEY_RECEIPT_TRANSACTION_ID = "RECEIPT_TRANSACTION_ID";
+    private static final String KEY_RECEIPT_ORDERS = "RECEIPT_ORDERS";
+    private static final String KEY_RECEIPT_CHECK = "RECEIPT_CHECK";
+    private static final String KEY_RECEIPT_QUANTITY = "RECEIPT_QUANTITY";
+    private static final String KEY_RECEIPT_MENU_CATEGORY = "RECEIPT_MENU_CATEGORY";
+    private static final String KEY_RECEIPT_REGISTRATION_pID = "RECEIPT_REGISTRATION_pID";
+
     //Default constructor which generates the database
     public DBController(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -104,6 +113,7 @@ public class DBController extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
         db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
         db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        db.execSQL("create table " + TABLE_RECEIPT + "(RECEIPT_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, RECEIPT_TRANSACTION_ID INTEGER NOT NULL, RECEIPT_ORDERS TEXT NOT NULL, RECEIPT_CHECK NUM NOT NULL, RECEIPT_QUANTITY INTEGER NOT NULL, RECEIPT_MENU_CATEGORY TEXT NOT NULL, RECEIPT_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY (RECEIPT_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
         Log.d("TAG", "Tables Created Successfully!!!");
     }
 
@@ -139,7 +149,7 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Database login authentication routine
+    //Database login authentication routine matches username with password in db
     public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select REGISTRATION_USER, REGISTRATION_PASS from " + TABLE_REGISTRATIONS;
@@ -265,7 +275,6 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-
     //Database retrieve user registration data routine
     public List<Registration> getAllRegistrations() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -289,6 +298,53 @@ public class DBController extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return registrationList;
+    }
+
+    //Database insert receipt data routine
+    public void insertReceipt(Receipt receipt) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_RECEIPT_TRANSACTION_ID, receipt.getTransaction_ID());
+        values.put(KEY_RECEIPT_MENU_CATEGORY, receipt.getMenuCategory()); 
+        values.put(KEY_RECEIPT_ORDERS, receipt.getOrder_Names());
+        values.put(KEY_RECEIPT_QUANTITY, receipt.getOrder_Quantity());
+        values.put(KEY_RECEIPT_CHECK, receipt.getOrder_Prices());
+
+        db.insert(TABLE_RECEIPT, null, values);
+        Log.d("TAG", "Receipt Data Inserted Successfully!!!");
+        db.close();
+    }
+
+    //Database Menu categories routine responsible for retrieving all relevant order history
+    public Cursor getMenuDishData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor dish = db.rawQuery("SELECT * FROM " + TABLE_MENU_DISH, null);
+        return dish;
+    }
+
+    public Cursor getMenuAppetizerData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor appetizer = db.rawQuery("SELECT * FROM " + TABLE_MENU_APPETIZER, null);
+        return appetizer;
+    }
+
+    public Cursor getMenuDrinksData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor drinks = db.rawQuery("SELECT * FROM " + TABLE_MENU_DRINKS, null);
+        return drinks;
+    }
+
+    public Cursor getMenuDessertsData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor desserts = db.rawQuery("SELECT * FROM " + TABLE_MENU_DESSERTS, null);
+        return desserts;
+    }
+
+    public Cursor getReceiptData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor receipt = db.rawQuery("SELECT * FROM " + TABLE_RECEIPT, null);
+        return receipt;
     }
 
     //Database update user registration data routine
