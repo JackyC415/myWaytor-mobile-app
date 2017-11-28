@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 public class CardRegistrationActivity extends AppCompatActivity {
+    DBController db;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_registration);
