@@ -17,8 +17,8 @@ public class CardHolder {
     public CardHolder(int primaryID, String cardHolderName, int cardNumber, String expirationDate,
                       int cvvNumber, String userAddress, int userZipCode,
                       String userCity, String userState, String userCountry, int card_registrationID) {
+        
         this.primaryID = primaryID;
-
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
@@ -118,5 +118,5 @@ public class CardHolder {
     public void setCard_registrationID(int card_registrationID) {
         this.card_registrationID = card_registrationID;
     }
-
+    
 }

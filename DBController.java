@@ -85,10 +85,10 @@ public class DBController extends SQLiteOpenHelper {
     //Receipt Table Column Names
     private static final String KEY_RECEIPT_pID = "RECEIPT_pID";
     private static final String KEY_RECEIPT_TRANSACTION_ID = "RECEIPT_TRANSACTION_ID";
+    private static final String KEY_RECEIPT_MENU_CATEGORY = "RECEIPT_MENU_CATEGORY";
     private static final String KEY_RECEIPT_ORDERS = "RECEIPT_ORDERS";
     private static final String KEY_RECEIPT_CHECK = "RECEIPT_CHECK";
     private static final String KEY_RECEIPT_QUANTITY = "RECEIPT_QUANTITY";
-    private static final String KEY_RECEIPT_MENU_CATEGORY = "RECEIPT_MENU_CATEGORY";
     private static final String KEY_RECEIPT_REGISTRATION_pID = "RECEIPT_REGISTRATION_pID";
 
     //Default constructor which generates the database
@@ -97,23 +97,32 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints upon database create to ensure enforcement
+            db.execSQL("PRAGMA foreign_keys=1;");
+            Log.d("TAG", "Foreign Keys Constraint Enabled!!!");
+        }
+    }
+
     //Generating Database Tables for Registration, CardHolder and Four Menu Categories
     //Foreign Keys referencing Registration PK
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Enable foreign key constraints upon database create to ensure enforcement
-        if (!db.isReadOnly()) {
-            db.execSQL("PRAGMA foreign_keys = 1;");
-            Log.d("TAG", "Foreign Keys Constraint Enabled!!!");
-        }
         //Create Tables
-        db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
-        db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID TEXT NOT NULL, FOREIGN KEY (CARD_REGISTRATION_pID) REFERENCES Registration (REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DISH_NAME TEXT NOT NULL, DISH_PRICE NUM NOT NULL, DISH_QUANTITY INTEGER NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-        db.execSQL("create table " + TABLE_RECEIPT + "(RECEIPT_pID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, RECEIPT_TRANSACTION_ID INTEGER NOT NULL, RECEIPT_ORDERS TEXT NOT NULL, RECEIPT_CHECK NUM NOT NULL, RECEIPT_QUANTITY INTEGER NOT NULL, RECEIPT_MENU_CATEGORY TEXT NOT NULL, RECEIPT_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY (RECEIPT_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        try {
+            db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
+            db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY(CARD_REGISTRATION_pID) REFERENCES Registration (REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, DISH_NAME TEXT NOT NULL, DISH_PRICE NUM NOT NULL, DISH_QUANTITY INTEGER NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_RECEIPT + "(RECEIPT_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, RECEIPT_TRANSACTION_ID INTEGER NOT NULL, RECEIPT_ORDERS TEXT NOT NULL, RECEIPT_CHECK NUM NOT NULL, RECEIPT_QUANTITY INTEGER NOT NULL, RECEIPT_MENU_CATEGORY TEXT NOT NULL, RECEIPT_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY (RECEIPT_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         Log.d("TAG", "Tables Created Successfully!!!");
     }
 
@@ -149,7 +158,7 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Database login authentication routine matches username with password in db
+    //Database login authentication routine
     public String LoginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select REGISTRATION_USER, REGISTRATION_PASS from " + TABLE_REGISTRATIONS;
@@ -181,13 +190,27 @@ public class DBController extends SQLiteOpenHelper {
         return FK;
     }
 
+    //Database acquire cardholder primary ID for delete card
+    public String getCardpID() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // List<CardHolder> cardList = new ArrayList<CardHolder>();
+        Cursor c = db.rawQuery("SELECT CARD_pID FROM " + TABLE_CARDHOLDER, null);
+        String pID = "";
+        while (c.moveToNext()) {
+            pID = c.getString(0);
+            //cardList.add(name);
+        }
+        c.close();
+        return pID;
+    }
+
     //Database validate card routine
     public boolean CheckCard() {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CARDHOLDER, null);
 
-        if (c != null && c.getCount() > 0) {
+        if (c != null && (c.getCount() > 0)) {
             c.close();
             return true;
         }
@@ -275,38 +298,13 @@ public class DBController extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Database retrieve user registration data routine
-    public List<Registration> getAllRegistrations() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        List<Registration> registrationList = new ArrayList<Registration>();
-        String ListQuery = "SELECT * FROM " + TABLE_REGISTRATIONS;
-        Cursor cursor = db.rawQuery(ListQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Registration registration = new Registration();
-                registration.setUserFirstName(cursor.getString(0));
-                registration.setUserLastName(cursor.getString(1));
-                registration.setUserName((cursor.getString(2)));
-                registration.setUserPassword(cursor.getString(3));
-                registration.setUserAge(Integer.parseInt(cursor.getString(4)));
-                registration.setUserGender((cursor.getString(5)));
-                registration.setUserEmail(cursor.getString(6));
-
-                registrationList.add(registration);
-
-            } while (cursor.moveToNext());
-        }
-        return registrationList;
-    }
-
     //Database insert receipt data routine
     public void insertReceipt(Receipt receipt) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_RECEIPT_TRANSACTION_ID, receipt.getTransaction_ID());
-        values.put(KEY_RECEIPT_MENU_CATEGORY, receipt.getMenuCategory()); 
+        values.put(KEY_RECEIPT_MENU_CATEGORY, receipt.getMenuCategory());
         values.put(KEY_RECEIPT_ORDERS, receipt.getOrder_Names());
         values.put(KEY_RECEIPT_QUANTITY, receipt.getOrder_Quantity());
         values.put(KEY_RECEIPT_CHECK, receipt.getOrder_Prices());
@@ -347,6 +345,31 @@ public class DBController extends SQLiteOpenHelper {
         return receipt;
     }
 
+    //Database retrieve user registration data routine
+    public List<Registration> getAllRegistrations() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Registration> registrationList = new ArrayList<Registration>();
+        String ListQuery = "SELECT * FROM " + TABLE_REGISTRATIONS;
+        Cursor cursor = db.rawQuery(ListQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Registration registration = new Registration();
+                registration.setUserFirstName(cursor.getString(0));
+                registration.setUserLastName(cursor.getString(1));
+                registration.setUserName((cursor.getString(2)));
+                registration.setUserPassword(cursor.getString(3));
+                registration.setUserAge(Integer.parseInt(cursor.getString(4)));
+                registration.setUserGender((cursor.getString(5)));
+                registration.setUserEmail(cursor.getString(6));
+
+                registrationList.add(registration);
+
+            } while (cursor.moveToNext());
+        }
+        return registrationList;
+    }
+
     //Database update user registration data routine
     public int updateRegistration(Registration registration) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -384,17 +407,10 @@ public class DBController extends SQLiteOpenHelper {
                 new String[]{String.valueOf(cardholder.getPrimaryID())});
     }
 
-    //Database delete user registration data routine
-    public void deleteRegistration(Registration registration) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_REGISTRATIONS, KEY_REGISTRATION_pID + "=?", new String[]{String.valueOf(registration.getPrimaryID())});
-        db.close();
-    }
-
     //Database delete user card data routine
-    public void deleteCard(CardHolder cardholder) {
+    public void deleteCard(String pID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_REGISTRATIONS, KEY_REGISTRATION_pID + "=?", new String[]{String.valueOf(cardholder.getPrimaryID())});
+        db.delete(TABLE_CARDHOLDER, KEY_CARD_pID + "=?", new String[]{pID});
         db.close();
     }
 
