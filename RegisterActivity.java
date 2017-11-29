@@ -12,12 +12,11 @@ import android.content.*;
 public class RegisterActivity extends AppCompatActivity {
 
     DBController db;
-    Registration registration;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        db = new DBController(this);
+        db = new DBController(RegisterActivity.this);
+        
         final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
         final EditText etLastName = (EditText) findViewById(R.id.etLastName);
         final EditText etUsername = (EditText) findViewById(R.id.etInputUsername);
@@ -25,12 +24,12 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etAge = (EditText) findViewById(R.id.etAge);
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etGender = (EditText) findViewById(R.id.etGender);
-
         final Button bRegister = (Button) findViewById(R.id.bRegisterLink);
         bRegister.setText("Register Here");
 
         bRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 final String FirstName = etFirstName.getText().toString();
                 final String LastName = etLastName.getText().toString();
                 final String Username = etUsername.getText().toString();
@@ -38,14 +37,15 @@ public class RegisterActivity extends AppCompatActivity {
                 final String Age = etAge.getText().toString();
                 final String Email = etEmail.getText().toString();
                 final String Gender = etGender.getText().toString();
-                final int age = Integer.parseInt(Age);
 
-                if (TextUtils.isEmpty(FirstName) || TextUtils.isEmpty(LastName) || TextUtils.isEmpty(Username) || TextUtils.isEmpty(Password)
-                        || TextUtils.isEmpty(Age) || TextUtils.isEmpty(Email) || TextUtils.isEmpty(Gender)) {
-                    Toast errorMsg = Toast.makeText(RegisterActivity.this, "Please Fill in Every Rows!", Toast.LENGTH_SHORT);
-                    errorMsg.show();
+                //Handle all empty sections
+                if (TextUtils.isEmpty(FirstName) && TextUtils.isEmpty(LastName) && TextUtils.isEmpty(Username) && TextUtils.isEmpty(Password)
+                        && TextUtils.isEmpty(Age) && TextUtils.isEmpty(Email) && TextUtils.isEmpty(Gender)) {
+                    Toast.makeText(getApplicationContext(), "Please Fill in All Sections!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                
+
+                //Handle specific sections
                 if (TextUtils.isEmpty(FirstName)) {
                     Toast.makeText(getApplicationContext(), "Enter First Name!", Toast.LENGTH_SHORT).show();
                     return;
@@ -74,12 +74,15 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter Password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                
-                db.insertRegistrationData(new Registration(1, FirstName,LastName, age,Gender,Email,Username,Password));
-                
+
+                //convert object string to int for db insert data
+                final int age = Integer.parseInt(Age);
+
+                db.insertRegistrationData(new Registration(1, FirstName, LastName, age, Gender, Email, Username, Password));
+
+                //Next Activity
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
 }
-
