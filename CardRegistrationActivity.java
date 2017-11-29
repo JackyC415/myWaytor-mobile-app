@@ -9,15 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 public class CardRegistrationActivity extends AppCompatActivity {
 
     DBController db;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_registration);
-        db = new DBController(this);
+        db = new DBController(CardRegistrationActivity.this);
 
         final EditText etCardName = (EditText) findViewById(R.id.etCardName);
         final EditText etCardNumber = (EditText) findViewById(R.id.etCardNumber);
@@ -30,6 +28,7 @@ public class CardRegistrationActivity extends AppCompatActivity {
         final EditText etCountry = (EditText) findViewById(R.id.etCountry);
         final Button bAddCard = (Button) findViewById(R.id.bAddCard);
         bAddCard.setText("Add Card");
+        final Button bDeleteCard = (Button) findViewById(R.id.deleteCard_Button);
 
         bAddCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -84,14 +83,17 @@ public class CardRegistrationActivity extends AppCompatActivity {
                 final int cardnumber = Integer.parseInt(CardNumber);
                 final int zipcode = Integer.parseInt(ZipCode);
                 final int cvv = Integer.parseInt(CVV);
+
                 //Calling get foreign key function from database
                 int r_id = db.getFK();
-
                 //Inserting card registration information...
-                db.insertCardData(new CardHolder(1, CardName, cardnumber, ExpirationDate, cvv, BillingAddress, zipcode, City, State, Country, r_id));
+                db.updateCard(new CardHolder(1, CardName, cardnumber, ExpirationDate, cvv, BillingAddress, zipcode, City, State, Country, r_id));
+
+                /*if(bDeleteCard.callOnClick() && db.CheckCard() == true) {
+                    db.deleteCard(new CardHolder(1, CardName, cardnumber, ExpirationDate, cvv, BillingAddress, zipcode, City, State, Country, r_id));
+                }*/
                 //Next activity
                 startActivity(new Intent(CardRegistrationActivity.this, MenuActivity.class));
-
             }
         });
     }
