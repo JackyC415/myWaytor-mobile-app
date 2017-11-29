@@ -18,7 +18,6 @@ public class CardHolder {
                       int cvvNumber, String userAddress, int userZipCode,
                       String userCity, String userState, String userCountry, int card_registrationID) {
         this.primaryID = primaryID;
-
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
