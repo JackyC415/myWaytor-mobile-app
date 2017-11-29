@@ -1,4 +1,4 @@
-package com.example.jchen415.mywaytormobileapplication;
+package com.example.lap.mywaytor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class CardRegistrationActivity extends AppCompatActivity {
-
     DBController db;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,3 +97,4 @@ public class CardRegistrationActivity extends AppCompatActivity {
         });
     }
 }
+

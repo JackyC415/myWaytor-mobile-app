@@ -59,4 +59,5 @@ public class MenuDrinks {
     public void setDrinks_Registration_pID(int drinks_Registration_pID) {
         this.drinks_Registration_pID = drinks_Registration_pID;
     }
+
 }
