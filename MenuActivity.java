@@ -17,7 +17,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        db = new DBController(this);
+        db = new DBController(MenuActivity.this);
 
         friedChicken = (ImageButton) findViewById(R.id.fried_Chicken);
         payment_Button = (Button) findViewById(R.id.payment_Button);
@@ -26,23 +26,20 @@ public class MenuActivity extends AppCompatActivity {
 
         friedChicken.setOnClickListener(new View.OnClickListener() {
             @Override
-             public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent fChicken = new Intent(MenuActivity.this, DetailedMenuActivity.class);
                 startActivity(fChicken);
             }
-         });
+        });
 
         payment_Button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
                 if (db.CheckCard() == true) {
                     Intent payment = new Intent(MenuActivity.this, payActivity.class);
                     startActivity(payment);
-                }
-                else {
+                } else {
                     Toast errorMsg = Toast.makeText(MenuActivity.this, "Please Add Card!", Toast.LENGTH_SHORT);
                     errorMsg.show();
                 }
@@ -51,8 +48,7 @@ public class MenuActivity extends AppCompatActivity {
 
         addCard_Button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent card = new Intent(MenuActivity.this, CardRegistrationActivity.class);
                 startActivity(card);
             }
@@ -60,14 +56,12 @@ public class MenuActivity extends AppCompatActivity {
 
         deleteCard_Button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 String pID = db.getCardpID();
                 if (db.CheckCard()) {
                     db.deleteCard(pID);
                     Toast.makeText(MenuActivity.this, "Card Deleted!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(MenuActivity.this, "No Card On File!", Toast.LENGTH_SHORT).show();
                 }
             }
