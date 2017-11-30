@@ -13,6 +13,7 @@ import android.text.*;
 public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnRegister, btnLogin;
+    private int counter = 0;
     DBController db;
 
     @Override
@@ -59,9 +60,25 @@ public class LoginActivity extends AppCompatActivity {
                     if (password.equals(dbAuth)) {
                         startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
                     }
-                    else {
-                        Toast errorMsg = Toast.makeText(LoginActivity.this, "Username and Password not matched!", Toast.LENGTH_SHORT);
-                        errorMsg.show();
+                   else {
+                        counter++;
+                        if (counter >= 3) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setTitle("Login Failed");
+                            builder.setMessage("Please Check Your Email For Verification!");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent payment = new Intent(LoginActivity.this, LoginActivity.class);
+                                    startActivity(payment);
+                                }
+                            });
+                            builder.create();
+                            builder.show();
+                        } else {
+                            Toast errorMsg = Toast.makeText(LoginActivity.this, "Username and Password not matched!", Toast.LENGTH_SHORT);
+                            errorMsg.show();
+                        }
                     }
                 }
             }
