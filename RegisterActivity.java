@@ -12,11 +12,12 @@ import android.content.*;
 public class RegisterActivity extends AppCompatActivity {
 
     DBController db;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         db = new DBController(RegisterActivity.this);
-        
         final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
         final EditText etLastName = (EditText) findViewById(R.id.etLastName);
         final EditText etUsername = (EditText) findViewById(R.id.etInputUsername);
@@ -37,13 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
                 final String Age = etAge.getText().toString();
                 final String Email = etEmail.getText().toString();
                 final String Gender = etGender.getText().toString();
-
-                //Handle all empty sections
-                if (TextUtils.isEmpty(FirstName) && TextUtils.isEmpty(LastName) && TextUtils.isEmpty(Username) && TextUtils.isEmpty(Password)
-                        && TextUtils.isEmpty(Age) && TextUtils.isEmpty(Email) && TextUtils.isEmpty(Gender)) {
-                    Toast.makeText(getApplicationContext(), "Please Fill in All Sections!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 //Handle specific sections
                 if (TextUtils.isEmpty(FirstName)) {
@@ -66,12 +60,37 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter Email!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if (TextUtils.isEmpty(Username)) {
                     Toast.makeText(getApplicationContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if (TextUtils.isEmpty(Password)) {
                     Toast.makeText(getApplicationContext(), "Enter Password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //Handle all empty sections
+                if (TextUtils.isEmpty(FirstName) && TextUtils.isEmpty(LastName) && TextUtils.isEmpty(Username) && TextUtils.isEmpty(Password)
+                        && TextUtils.isEmpty(Age) && TextUtils.isEmpty(Email) && TextUtils.isEmpty(Gender)) {
+                    Toast.makeText(getApplicationContext(), "Please Fill in All Sections!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //Handle both username and email exist
+                if ((!db.checkEmailExists(Email)) && (!db.checkUserExists(Username))) {
+                    Toast.makeText(getApplicationContext(), "Email and Username Already Exist!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //Handle username exists
+                else if (!db.checkUserExists(Username)) {
+                    Toast.makeText(getApplicationContext(), "Username Already Exists!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //Handle email exists
+                else if (!db.checkEmailExists(Email)) {
+                    Toast.makeText(getApplicationContext(), "Email Already Exists!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
