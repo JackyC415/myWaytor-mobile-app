@@ -176,6 +176,38 @@ public class DBController extends SQLiteOpenHelper {
         }
         return pass;
     }
+    
+    //Database handle username registration exception routine
+      public boolean checkUserExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT REGISTRATION_USER FROM " + TABLE_REGISTRATIONS, null);
+        String user;
+        if (cursor.moveToFirst()) {
+            do {
+                user = cursor.getString(0);
+                if (user.equals(username)) {
+                    return false;
+                }
+            } while (cursor.moveToNext());
+        }
+        return true;
+    }
+
+    //Database handle email registration exception routine
+    public boolean checkEmailExists(String emails) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT REGISTRATION_EMAIL FROM " + TABLE_REGISTRATIONS, null);
+        String email;
+        if (cursor.moveToFirst()) {
+            do {
+                email = cursor.getString(0);
+                if (email.equals(emails)) {
+                    return false;
+                }
+            } while (cursor.moveToNext());
+        }
+        return true;
+    }
 
     //Database match foreign key routine
     public int getFK() {
