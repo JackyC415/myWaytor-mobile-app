@@ -1,6 +1,7 @@
-package com.example.lap.mywaytor;
 package com.example.jchen415.mywaytormobileapplication;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.*;
@@ -20,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        db = new DBController(this);
+        db = new DBController(LoginActivity.this);
 
         inputEmail = (EditText) findViewById(R.id.etInputUsername);
         inputPassword = (EditText) findViewById(R.id.etInputPassword);
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-       btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -56,11 +57,11 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     String dbAuth = db.LoginAuth(username);
                     if (password.equals(dbAuth)) {
-                        startActivity(new Intent(LoginActivity.this, DetailedMenuActivity.class));
-                    }
-                   else {
+                        startActivity(new Intent(LoginActivity.this, LocationCheckActivity.class));
+                    } else {
                         counter++;
                         if (counter >= 3) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
