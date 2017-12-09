@@ -176,9 +176,8 @@ public class DBController extends SQLiteOpenHelper {
         }
         return pass;
     }
-    
-    //Database handle username registration exception routine
-      public boolean checkUserExists(String username) {
+
+    public boolean checkUserExists(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT REGISTRATION_USER FROM " + TABLE_REGISTRATIONS, null);
         String user;
@@ -186,14 +185,13 @@ public class DBController extends SQLiteOpenHelper {
             do {
                 user = cursor.getString(0);
                 if (user.equals(username)) {
-                    return false;
+                    return true;
                 }
             } while (cursor.moveToNext());
         }
-        return true;
+        return false;
     }
 
-    //Database handle email registration exception routine
     public boolean checkEmailExists(String emails) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT REGISTRATION_EMAIL FROM " + TABLE_REGISTRATIONS, null);
@@ -202,18 +200,37 @@ public class DBController extends SQLiteOpenHelper {
             do {
                 email = cursor.getString(0);
                 if (email.equals(emails)) {
-                    return false;
+                    return true;
                 }
             } while (cursor.moveToNext());
         }
-        return true;
+        return false;
     }
+
+    public boolean checkCardExists(String cards) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Cards_Email FROM " + TABLE_CARDHOLDER, null);
+        String card;
+        //Loop through the CardHolder table database for Cards_Email column and if card matches the input parameter
+        //return true if found, else return false
+        if (cursor.moveToFirst()) {
+            do {
+                card = cursor.getString(0);
+                if (card.equals(cards)) {
+                    return true;
+                }
+            } while (cursor.moveToNext());
+        }
+        return false;
+    }
+
 
     //Database match foreign key routine
     public int getFK() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM " + TABLE_REGISTRATIONS, null);
+        Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM " + TABLE_REGISTRATIONS,  null);
+        //Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM " + TABLE_REGISTRATIONS + " R JOIN " + TABLE_CARDHOLDER + " C ON R.REGISTRATION_pID = C.CARD_REGISTRATION_pID",  null);
         int FK = 0;
         while (c.moveToNext()) {
             FK = c.getInt(0);
