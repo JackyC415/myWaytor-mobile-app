@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.*;
 
-public class RegisterActivity extends AppCompatActivity {
+public class    RegisterActivity extends AppCompatActivity {
 
     DBController db;
 
@@ -27,6 +27,13 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etGender = (EditText) findViewById(R.id.etGender);
         final Button bRegister = (Button) findViewById(R.id.bRegisterLink);
         bRegister.setText("Register Here");
+        final Button bCancel = (Button) findViewById(R.id.bCancelButton);
+
+        bCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
 
         bRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -41,33 +48,33 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //Handle specific sections
                 if (TextUtils.isEmpty(FirstName)) {
-                    Toast.makeText(getApplicationContext(), "Enter First Name!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "First Name Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(LastName)) {
-                    Toast.makeText(getApplicationContext(), "Enter Last Name!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Last Name Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(Age)) {
-                    Toast.makeText(getApplicationContext(), "Enter Age!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Age Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(Gender)) {
-                    Toast.makeText(getApplicationContext(), "Enter Gender!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Gender Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(Email)) {
-                    Toast.makeText(getApplicationContext(), "Enter Email!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Email Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(Username)) {
-                    Toast.makeText(getApplicationContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Username Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(Password)) {
-                    Toast.makeText(getApplicationContext(), "Enter Password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Password Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -79,17 +86,17 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 //Handle both username and email exist
-                if ((!db.checkEmailExists(Email)) && (!db.checkUserExists(Username))) {
-                    Toast.makeText(getApplicationContext(), "Email and Username Already Exist!", Toast.LENGTH_SHORT).show();
+                if ((db.checkEmailExists(Email)) && (db.checkUserExists(Username))) {
+                    Toast.makeText(getApplicationContext(), "Both Email and Username Already Exist!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //Handle username exists
-                else if (!db.checkUserExists(Username)) {
+                else if (db.checkUserExists(Username)) {
                     Toast.makeText(getApplicationContext(), "Username Already Exists!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //Handle email exists
-                else if (!db.checkEmailExists(Email)) {
+                else if (db.checkEmailExists(Email)) {
                     Toast.makeText(getApplicationContext(), "Email Already Exists!", Toast.LENGTH_SHORT).show();
                     return;
                 }
