@@ -43,7 +43,7 @@ public class DBController extends SQLiteOpenHelper {
 
     //CardHolder Table Column Names
     private static final String KEY_CARD_pID = "CARD_pID";
-    private static final String KEY_CARD_REGISTRATION_pID = "CARD_REGISTRATION_pID";
+    private static final String KEY_CARD_REGISTRATION_USER = "CARD_REGISTRATION_USER";
     private static final String KEY_CARD_NAME = "CARD_NAME";
     private static final String KEY_CARD_NUMBER = "CARD_NUMBER";
     private static final String KEY_CARD_EXPIRATIONDATE = "CARD_EXPIRATION";
@@ -113,13 +113,13 @@ public class DBController extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //Create Tables
         try {
-            db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
-            db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, CARD_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY(CARD_REGISTRATION_pID) REFERENCES Registration (REGISTRATION_pID))");
-            db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, DISH_NAME TEXT NOT NULL, DISH_PRICE NUM NOT NULL, DISH_QUANTITY INTEGER NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-            db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-            db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-            db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
-            db.execSQL("create table " + TABLE_RECEIPT + "(RECEIPT_pID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, RECEIPT_TRANSACTION_ID INTEGER NOT NULL, RECEIPT_ORDERS TEXT NOT NULL, RECEIPT_CHECK NUM NOT NULL, RECEIPT_QUANTITY INTEGER NOT NULL, RECEIPT_MENU_CATEGORY TEXT NOT NULL, RECEIPT_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY (RECEIPT_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_REGISTRATIONS + " (REGISTRATION_pID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, REGISTRATION_FIRST TEXT NOT NULL, REGISTRATION_LAST TEXT NOT NULL, REGISTRATION_USER TEXT UNIQUE, REGISTRATION_PASS TEXT NOT NULL, REGISTRATION_AGE INTEGER NOT NULL, REGISTRATION_GENDER TEXT NOT NULL, REGISTRATION_EMAIL TEXT UNIQUE)");
+            db.execSQL("create table " + TABLE_CARDHOLDER + " (CARD_pID INTEGER PRIMARY KEY NOT NULL, CARD_REGISTRATION_USER TEXT NOT NULL, CARD_NAME TEXT NOT NULL, CARD_NUMBER INTEGER UNIQUE, CARD_EXPIRATION TEXT NOT NULL, CARD_CVV INTEGER NOT NULL, CARD_ADDRESS TEXT NOT NULL, CARD_ZIPCODE INTEGER NOT NULL, CARD_CITY TEXT NOT NULL, CARD_STATE TEXT NOT NULL, CARD_COUNTRY TEXT NOT NULL, FOREIGN KEY(CARD_REGISTRATION_USER) REFERENCES Registration(REGISTRATION_USER), FOREIGN KEY(CARD_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_DISH + "(DISH_pID INTEGER PRIMARY KEY NOT NULL, DISH_NAME TEXT NOT NULL, DISH_PRICE NUM NOT NULL, DISH_QUANTITY INTEGER NOT NULL, DISH_REGISTRATION_pID NOT NULL, FOREIGN KEY (DISH_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_APPETIZER + "(APPETIZER_pID INTEGER PRIMARY KEY NOT NULL, APPETIZER_NAME TEXT NOT NULL, APPETIZER_PRICE NUM NOT NULL, APPETIZER_QUANTITY INTEGER NOT NULL, APPETIZER_REGISTRATION_pID NOT NULL, FOREIGN KEY (APPETIZER_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_DRINKS + "(DRINKS_pID INTEGER PRIMARY KEY NOT NULL, DRINKS_NAME TEXT NOT NULL, DRINKS_PRICE NUM NOT NULL, DRINKS_QUANTITY INTEGER NOT NULL, DRINKS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DRINKS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_MENU_DESSERTS + "(DESSERTS_pID INTEGER PRIMARY KEY NOT NULL, DESSERTS_NAME TEXT NOT NULL, DESSERTS_PRICE NUM NOT NULL, DESSERTS_QUANTITY INTEGER NOT NULL, DESSERTS_REGISTRATION_pID NOT NULL, FOREIGN KEY (DESSERTS_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
+            db.execSQL("create table " + TABLE_RECEIPT + "(RECEIPT_pID INTEGER PRIMARY KEY NOT NULL, RECEIPT_TRANSACTION_ID INTEGER NOT NULL, RECEIPT_ORDERS TEXT NOT NULL, RECEIPT_CHECK NUM NOT NULL, RECEIPT_QUANTITY INTEGER NOT NULL, RECEIPT_MENU_CATEGORY TEXT NOT NULL, RECEIPT_REGISTRATION_pID INTEGER NOT NULL, FOREIGN KEY (RECEIPT_REGISTRATION_pID) REFERENCES Registration(REGISTRATION_pID))");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -209,9 +209,9 @@ public class DBController extends SQLiteOpenHelper {
 
     public boolean checkCardExists(String cards) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT Cards_Email FROM " + TABLE_CARDHOLDER, null);
+        Cursor cursor = db.rawQuery("SELECT CARD_NUMBER FROM " + TABLE_CARDHOLDER, null);
         String card;
-        //Loop through the CardHolder table database for Cards_Email column and if card matches the input parameter
+        //Loop through the CardHolder table database for CARD_NUMBER column and if card matches the input parameter
         //return true if found, else return false
         if (cursor.moveToFirst()) {
             do {
@@ -226,14 +226,14 @@ public class DBController extends SQLiteOpenHelper {
 
 
     //Database match foreign key routine
-    public int getFK() {
+    public String getFK() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM " + TABLE_REGISTRATIONS,  null);
-        //Cursor c = db.rawQuery("SELECT REGISTRATION_pID FROM " + TABLE_REGISTRATIONS + " R JOIN " + TABLE_CARDHOLDER + " C ON R.REGISTRATION_pID = C.CARD_REGISTRATION_pID",  null);
-        int FK = 0;
+        Cursor c = db.rawQuery("SELECT REGISTRATION_USER FROM " + TABLE_REGISTRATIONS, null);
+        //+ " R JOIN " + TABLE_CARDHOLDER + " C ON R.REGISTRATION_pID = C.CARD_pID"
+        String FK = "";
         while (c.moveToNext()) {
-            FK = c.getInt(0);
+            FK = c.getString(0);
         }
         c.close();
         return FK;
@@ -271,6 +271,7 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_CARD_REGISTRATION_USER, cardholder.getCard_registrationUser());
         values.put(KEY_CARD_NAME, cardholder.getCardHolderName());
         values.put(KEY_CARD_NUMBER, cardholder.getCardNumber());
         values.put(KEY_CARD_EXPIRATIONDATE, cardholder.getExpirationDate());
@@ -280,7 +281,6 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
         values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
         values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
-        values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
 
         db.insert(TABLE_CARDHOLDER, null, values);
         Log.d("TAG", "Cardholder Data Inserted Successfully!!!");
@@ -441,6 +441,7 @@ public class DBController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_CARD_REGISTRATION_USER, cardholder.getCard_registrationUser());
         values.put(KEY_CARD_NAME, cardholder.getCardHolderName());
         values.put(KEY_CARD_NUMBER, cardholder.getCardNumber());
         values.put(KEY_CARD_EXPIRATIONDATE, cardholder.getExpirationDate());
@@ -450,7 +451,6 @@ public class DBController extends SQLiteOpenHelper {
         values.put(KEY_CARD_USERCITY, cardholder.getUserCity());
         values.put(KEY_CARD_USERSTATE, cardholder.getUserState());
         values.put(KEY_CARD_USERCOUNTRY, cardholder.getUserState());
-        values.put(KEY_CARD_REGISTRATION_pID, cardholder.getCard_registrationID());
 
         return db.update(TABLE_CARDHOLDER, values, KEY_CARD_pID + "=?",
                 new String[]{String.valueOf(cardholder.getPrimaryID())});
