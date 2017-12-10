@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (v.getId() == R.id.bLogin) {
+
                     EditText user = (EditText) findViewById(R.id.etInputUsername);
                     String username = user.getText().toString();
                     EditText pass = (EditText) findViewById(R.id.etInputPassword);
@@ -58,15 +59,15 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
 
-                    String dbAuth = db.LoginAuth(username);
+                    String dbAuth = db.loginAuth(username);
                     if (password.equals(dbAuth)) {
                         startActivity(new Intent(LoginActivity.this, LocationCheckActivity.class));
                     } else {
                         counter++;
                         if (counter >= 3) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setTitle("Login Failed");
-                            builder.setMessage("Please Check Your Email For Verification!");
+                            builder.setTitle("Attempts Failed");
+                            builder.setMessage("Account Blocked!");
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
