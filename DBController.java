@@ -159,7 +159,7 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     //Database login authentication routine
-    public String LoginAuth(String username) {
+    public String loginAuth(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select REGISTRATION_USER, REGISTRATION_PASS from " + TABLE_REGISTRATIONS;
         Cursor cursor = db.rawQuery(query, null);
@@ -254,7 +254,7 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     //Database validate card routine
-    public boolean CheckCard() {
+    public boolean checkCard() {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CARDHOLDER, null);
