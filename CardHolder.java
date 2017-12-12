@@ -3,8 +3,9 @@ package com.example.jchen415.mywaytormobileapplication;
 public class CardHolder {
 
     private int primaryID;
+    private String card_registrationUser;
     private String cardHolderName;
-    private int cardNumber;
+    private long cardNumber;
     private String expirationDate;
     private int cvvNumber;
     private String userAddress;
@@ -12,13 +13,13 @@ public class CardHolder {
     private String userCity;
     private String userState;
     private String userCountry;
-    private int card_registrationID;
 
-    public CardHolder(int primaryID, String cardHolderName, int cardNumber, String expirationDate,
+    public CardHolder(int primaryID,String card_registrationUser, String cardHolderName, long cardNumber, String expirationDate,
                       int cvvNumber, String userAddress, int userZipCode,
-                      String userCity, String userState, String userCountry, int card_registrationID) {
-        
+                      String userCity, String userState, String userCountry) {
+
         this.primaryID = primaryID;
+        this.card_registrationUser = card_registrationUser;
         this.cardHolderName = cardHolderName;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
@@ -28,7 +29,6 @@ public class CardHolder {
         this.userCity = userCity;
         this.userState = userState;
         this.userCountry = userCountry;
-        this.card_registrationID = card_registrationID;
     }
 
     public int getPrimaryID() {
@@ -39,6 +39,14 @@ public class CardHolder {
         this.primaryID = primaryID;
     }
 
+    public String getCard_registrationUser() {
+        return card_registrationUser;
+    }
+
+    public void setCard_registrationUser(String card_registrationUser) {
+        this.card_registrationUser = card_registrationUser;
+    }
+
     public String getCardHolderName() {
         return cardHolderName;
     }
@@ -47,11 +55,11 @@ public class CardHolder {
         this.cardHolderName = cardHolderName;
     }
 
-    public int getCardNumber() {
+    public long getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(long cardNumber) {
         this.cardNumber = cardNumber;
     }
 
@@ -111,12 +119,4 @@ public class CardHolder {
         this.userCountry = userCountry;
     }
 
-    public int getCard_registrationID() {
-        return card_registrationID;
     }
-
-    public void setCard_registrationID(int card_registrationID) {
-        this.card_registrationID = card_registrationID;
-    }
-    
-}
