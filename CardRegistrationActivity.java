@@ -1,7 +1,9 @@
 package com.example.jchen415.mywaytormobileapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,23 +46,35 @@ public class CardRegistrationActivity extends AppCompatActivity {
                 final String Country = etCountry.getText().toString();
 
                 if (TextUtils.isEmpty(CardName)) {
-                    Toast.makeText(getApplicationContext(), "Enter Card Name!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter Card Name!", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (TextUtils.isEmpty(CardNumber)) {
-                    Toast.makeText(getApplicationContext(), "Enter Card Number!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter Card Number!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (CardNumber.length() > 16) {
+                    Toast.makeText(getApplicationContext(), "Card Number is 16 digits!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(ExpirationDate)) {
                     Toast.makeText(getApplicationContext(), "Enter Expiration Date!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (ExpirationDate.length() > 4) {
+                    Toast.makeText(getApplicationContext(), "Exp Date Too Long!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(CVV)) {
                     Toast.makeText(getApplicationContext(), "Enter CVV!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (CVV.length() > 3) {
+                    Toast.makeText(getApplicationContext(), "CVV is only 3 digits long!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(BillingAddress)) {
-                    Toast.makeText(getApplicationContext(), "Enter Billing Address!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter Billing Address!", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (TextUtils.isEmpty(ZipCode)) {
@@ -68,15 +82,15 @@ public class CardRegistrationActivity extends AppCompatActivity {
                     return;
                 }
                 if (TextUtils.isEmpty(City)) {
-                    Toast.makeText(getApplicationContext(), "Enter City!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter City!", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (TextUtils.isEmpty(State)) {
-                    Toast.makeText(getApplicationContext(), "Enter State!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter State!", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (TextUtils.isEmpty(Country)) {
-                    Toast.makeText(getApplicationContext(), "Enter Country!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter Country!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -87,7 +101,7 @@ public class CardRegistrationActivity extends AppCompatActivity {
                 }
 
                 //Converting String to Integer for object argument purposes
-                final int cardnumber = Integer.parseInt(CardNumber);
+                final long cardnumber = Long.parseLong(CardNumber);
                 final int zipcode = Integer.parseInt(ZipCode);
                 final int cvv = Integer.parseInt(CVV);
 
@@ -96,8 +110,17 @@ public class CardRegistrationActivity extends AppCompatActivity {
                 //Inserting card registration information...
                 db.insertCardData(new CardHolder(1, r_id, CardName, cardnumber, ExpirationDate, cvv, BillingAddress, zipcode, City, State, Country));
 
-                //Next activity
-                startActivity(new Intent(CardRegistrationActivity.this, MenuActivity.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(CardRegistrationActivity.this);
+                builder.setTitle("Card Added!");
+                builder.setMessage("You May Check Out Now!");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(CardRegistrationActivity.this, Menu1.class));
+                    }
+                });
+                builder.create();
+                builder.show();
             }
         });
     }
