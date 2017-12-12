@@ -59,22 +59,31 @@ public class    RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Age Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (!TextUtils.isEmpty(Age) && Age.length() > 3) {
+                    Toast.makeText(getApplicationContext(), "Contact NASA! We Found an Alien!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(Gender)) {
                     Toast.makeText(getApplicationContext(), "Gender Invalid!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(Email)) {
-                    Toast.makeText(getApplicationContext(), "Email Invalid!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Email Invalid!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(Username)) {
-                    Toast.makeText(getApplicationContext(), "Username Invalid!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Username Invalid!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(Password)) {
-                    Toast.makeText(getApplicationContext(), "Password Invalid!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Password Invalid!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if(Username.equals(Password)) {
+                    Toast.makeText(getApplicationContext(), "Username Cannot Be Same As Password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
