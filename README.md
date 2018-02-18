@@ -1,2 +1,2 @@
 # myWaytor
-UC MERCED CSE 120: SOFTWARE ENGINEERING PROJECT
+Software engineering course project
