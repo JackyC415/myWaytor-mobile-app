@@ -1,2 +1,2 @@
 # myWaytor
-Software engineering course project
+Software Engineering Course Project
