@@ -3,19 +3,19 @@ Software Engineering Course Project
 
 Restaurant food ordering mobile application, myWaytor, implemented with Android Studio and SQLiteStudio database.
 
-#Purpose of this app: 
+# Purpose of this app: 
 
 The purpose of developing this mobile android application, myWaytor, is to essentially make food ordering in dining settings 
 more easily, efficiently and conveniently. The ultimate goal of this application is to reduce unnecessary time when ordering 
 for food,  eliminate the probability of messing up on the orders and allow waiters to work more efficiently during busy hours. Think about it: taking orders and cashiering take up a huge factor of the business time. Although our application has two options of paying with card and cash, in the long run, paying with card on the device will outscale the cash portion and that will greatly reduces waiting time for customers.
 
-#Design process challenges:
+# Design process challenges:
 
 1) Regarding the prototype design, previously, group decided to have the application scan a QR barcode inside every restaurant to open its menu upon user login. Although this sounds efficient, there are quite a few trade offs; such as, certain devices do not support it, the code may be scratched or ripped off from the table which requires replacement, link to different URLs and troubleshoot technical issues. Instead of this, we proposed to implement a location detector with Google Maps API which tracks down and pinpoints the restaurant location by simply pressing a button. Secondly, we proposed our original idea of the application “TEnP”, which stands for travel, eat and play. The idea of this app was to introduce an entertainment element of the app which allows user to book traveling tickets, find local restaurants and seek tourist attractions to explore. However, the application appeared to be overly complex when we discussed in depth during the initial stage of planning. As a result, we decided to narrow it down to only the “eating” aspect of the app - an ordering in restaurant type of application which we refer to as myWaytor.
 
 2) Regarding the database design, it was difficult to manage the foreign key constraints among different tables; essentially creating the “relational database” by connecting each pieces of information as a whole. I figured that each customer will contain an unique username, email and card number which will only correspond to a specific primary key within the database; thus, one to one relationship. This exact same concept applies to the credit card registration activity, though enforced differently, because each customer may have more than one credit cards(s), but those credit cards must corresponds to an existing user; one to many relationship. Because we are accessing our information through a local database, many authentication problems need to be resolved manually. Thus, making it more difficult to implement/design compared to real time network based databases, such as Firebase and MongoDB which already contain majority of the essential APIs embedded that will automatically receive updates with the latest data and perform authentication checks. Therefore, for our database with SQlite, I have to implement all the queries by hand for both execution and authentication.
 
-#Development process challenges:
+# Development process challenges:
 
 1) Hardware issue on laptop’s BIOS setting; HAXM version.
 2) Software issue on Android Studio’s emulator configuration.
@@ -47,7 +47,6 @@ was modifying my code and debugging the application, it kept on crashing until I
 that debugging is quite challenging when it comes to large scale project, because one problem may be the consequence of many 
 other problems as everything are relevant to one another. 
 
-#Testing process challenges:
+# Testing process challenges:
 
 Bugs discovered: Crashes for buttons not handled with database/logical reasons, such as order counts cannot be less than or equal to 0. Login page handles three attempts login failure termination. Registration handles mismatching username and password, existing database username, password and email (unique account) primary key enabled, invalid length inputs handled. Credit card unique card number and foreign key references primary key of registration user id, which is unique; one to many relationship.Delete card must check first for existing card on file. Payment summary checks if orders are empty, pay button checks if orders exist and credit card is valid. For all these problems, I integrated the necessary check statements either with database functions and/or through user interface objects manipulation. Though, majority of the checks were performed by executing database queries to eliminate and prevent errors/crashes  when user interacts with the application - that is, to handle the “dumbest” possible situation that may occur from user requests.
-
