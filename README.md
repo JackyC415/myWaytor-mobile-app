@@ -2,9 +2,7 @@
 
 # Purpose of this app: 
 
-The purpose of developing this mobile android application, myWaytor, is to essentially make food ordering in dining settings 
-more easily, efficiently and conveniently. The ultimate goal of this application is to reduce unnecessary time when ordering 
-for food,  eliminate the probability of messing up on the orders and allow waiters to work more efficiently during busy hours. Think about it: taking orders and cashiering take up a huge factor of the business time. Although our application has two options of paying with card and cash, in the long run, paying with card on the device will outscale the cash portion and that will greatly reduces waiting time for customers.
+The purpose of developing this Android mobile application, myWaytor, is to essentially make food ordering in dining environments/restaurants more easily, efficiently and conveniently. The ultimate goal of this application is to reduce unnecessary time spent ordering food through a restaurant server, to eliminate the probability of messing up on food orders and lastly, to enable servers to work more efficiently during busy hours. Think about it: taking orders and cashiering take up a huge factor of business time. Although our application has two options of paying with card and cash, in the long run, paying with card on the device will outscale the cash portion which then will greatly reduces waiting time for customers.
 
 # Design process challenges:
 
